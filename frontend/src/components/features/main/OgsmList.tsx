@@ -1,9 +1,11 @@
 import React from "react"
 import { List } from "@mui/material"
 import OgsmItem from "./OgsmItem"
+import { MODAL_TYPE } from "@/app/main/page"
 
 interface OgsmListProps {
   setIsOpen: (isOpen: boolean) => void
+  setModalType: (type: MODAL_TYPE) => void
 }
 
 export type OGSM_TYPE = {
@@ -12,7 +14,7 @@ export type OGSM_TYPE = {
   dDay: number
 }
 
-const OgsmList = ({ setIsOpen }: OgsmListProps) => {
+const OgsmList = ({ setIsOpen, setModalType }: OgsmListProps) => {
   const ogsmList: OGSM_TYPE[] = [
     {
       key: "Study English",
@@ -34,7 +36,14 @@ const OgsmList = ({ setIsOpen }: OgsmListProps) => {
       }}
     >
       {ogsmList.map((ogsm: OGSM_TYPE) => {
-        return <OgsmItem ogsm={ogsm} setIsOpen={setIsOpen} key={ogsm.key} />
+        return (
+          <OgsmItem
+            ogsm={ogsm}
+            setIsOpen={setIsOpen}
+            key={ogsm.key}
+            setModalType={setModalType}
+          />
+        )
       })}
     </List>
   )
