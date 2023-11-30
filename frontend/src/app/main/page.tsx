@@ -4,7 +4,6 @@ import { Add } from "@mui/icons-material"
 import { Button, Container } from "@mui/material"
 import OgsmList from "@/components/features/main/OgsmList"
 import OgsmModal from "@/components/blocks/modal/OgsmModal"
-import moment from "moment"
 
 export type MODAL_TYPE = "Edit" | "View"
 
