@@ -9,7 +9,6 @@ export type MODAL_TYPE = "Edit" | "View"
 
 const Main = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [modalType, setModalType] = useState<MODAL_TYPE>("Edit")
 
   return (
     <>
@@ -19,20 +18,17 @@ const Main = () => {
             You can do it!
           </h1>
           <Button
-            onClick={() => {
-              setIsOpen(true)
-              setModalType("Edit")
-            }}
+            onClick={() => setIsOpen(true)}
             variant="contained"
             startIcon={<Add />}
             style={{ textTransform: "none", marginBottom: "16px" }}
           >
             Add OGSM
           </Button>
-          <OgsmList setIsOpen={setIsOpen} setModalType={setModalType} />
+          <OgsmList setIsOpen={setIsOpen} />
         </main>
       </Container>
-      <OgsmModal isOpen={isOpen} setIsOpen={setIsOpen} type={modalType} />
+      <OgsmModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   )
 }

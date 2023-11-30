@@ -13,14 +13,12 @@ import {
 import { DesktopDatePicker } from "@mui/x-date-pickers"
 
 interface AddItemModalProps {
-  type?: "Edit" | "View"
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
 }
 
-const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
+const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
   const [category, setCategory] = useState<string>("Category1")
-  const [currentType, isCurrentType] = useState<string>(type)
 
   return (
     <Modal
@@ -46,9 +44,7 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
           overflowY: "auto",
         }}
       >
-        <h2 style={{ fontSize: "18px", marginBottom: "16px" }}>
-          {type === "Edit" ? "What is your OGSM?" : "Your OGSM"}
-        </h2>
+        <h2 style={{ fontSize: "18px", marginBottom: "16px" }}>Your OGSM</h2>
         <ul style={{ marginBottom: "16px" }}>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
             <FormLabel
@@ -58,27 +54,23 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
                 fontWeight: "700",
               }}
             >
-              {type === "Edit" ? "Select a Category" : "Category"}
+              Category
             </FormLabel>
-            {type === "Edit" ? (
-              <FormControl fullWidth>
-                <InputLabel id="select-category-label">Category</InputLabel>
-                <Select
-                  labelId="select-category-label"
-                  aria-labelledby="select-category"
-                  value={category}
-                  label="Category"
-                  onChange={(e) => setCategory(e.target.value)}
-                  size="small"
-                >
-                  <MenuItem value="Category1">Category1</MenuItem>
-                  <MenuItem value="Category2">Category2</MenuItem>
-                  <MenuItem value="Category3">Category3</MenuItem>
-                </Select>
-              </FormControl>
-            ) : (
-              <p aria-labelledby="select-category-label">Category</p>
-            )}
+            <FormControl fullWidth>
+              <InputLabel id="select-category-label">Category</InputLabel>
+              <Select
+                labelId="select-category-label"
+                aria-labelledby="select-category"
+                value={category}
+                label="Category"
+                onChange={(e) => setCategory(e.target.value)}
+                size="small"
+              >
+                <MenuItem value="Category1">Category1</MenuItem>
+                <MenuItem value="Category2">Category2</MenuItem>
+                <MenuItem value="Category3">Category3</MenuItem>
+              </Select>
+            </FormControl>
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
             <FormLabel
@@ -88,21 +80,17 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
                 fontWeight: "700",
               }}
             >
-              {type === "Edit" ? "Write your Object" : "Object"}
+              Object
             </FormLabel>
-            {type === "Edit" ? (
-              <TextField
-                aria-labelledby="add-object"
-                label="Object"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
-              />
-            ) : (
-              <p aria-labelledby="add-goal">Goal</p>
-            )}
+            <TextField
+              aria-labelledby="add-object"
+              label="Object"
+              variant="outlined"
+              size="small"
+              fullWidth
+              multiline
+              rows={3}
+            />
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
             <FormLabel
@@ -112,21 +100,17 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
                 fontWeight: "700",
               }}
             >
-              {type === "Edit" ? "Write your Goal" : "Goal"}
+              Goal
             </FormLabel>
-            {type === "Edit" ? (
-              <TextField
-                aria-labelledby="add-goal"
-                label="Goal"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
-              />
-            ) : (
-              <p aria-labelledby="add-goal">Goal</p>
-            )}
+            <TextField
+              aria-labelledby="add-goal"
+              label="Goal"
+              variant="outlined"
+              size="small"
+              fullWidth
+              multiline
+              rows={3}
+            />
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
             <FormLabel
@@ -136,28 +120,21 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
                 fontWeight: "700",
               }}
             >
-              {type === "Edit" ? "Write your Strategy" : "Strategy"}
+              Strategy
             </FormLabel>
-            {type === "Edit" ? (
-              <>
-                <DesktopDatePicker label="Start Date" />
-                <DesktopDatePicker label="End Date" />
-                <TextField
-                  aria-labelledby="add-strategy"
-                  label="Strategy"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  multiline
-                  rows={3}
-                />
-              </>
-            ) : (
-              <>
-                <p>2023.10.30 - 2024.01.30</p>
-                <p aria-labelledby="add-strategy">Strategy</p>
-              </>
-            )}
+            <>
+              <DesktopDatePicker label="Start Date" />
+              <DesktopDatePicker label="End Date" />
+              <TextField
+                aria-labelledby="add-strategy"
+                label="Strategy"
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                rows={3}
+              />
+            </>
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
             <FormLabel
@@ -167,21 +144,17 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
                 fontWeight: "700",
               }}
             >
-              {type === "Edit" ? "Write your Measure" : "Measure"}
+              Measure
             </FormLabel>
-            {type === "Edit" ? (
-              <TextField
-                aria-labelledby="add-measure"
-                label="Measure"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
-              />
-            ) : (
-              <p aria-labelledby="add-measure">Measure</p>
-            )}
+            <TextField
+              aria-labelledby="add-measure"
+              label="Measure"
+              variant="outlined"
+              size="small"
+              fullWidth
+              multiline
+              rows={3}
+            />
           </li>
         </ul>
         <footer
@@ -192,45 +165,16 @@ const OgsmModal = ({ type = "Edit", isOpen, setIsOpen }: AddItemModalProps) => {
             gap: "8px",
           }}
         >
-          {type === "Edit" ? (
-            <>
-              <Button variant="outlined" onClick={() => setIsOpen(false)}>
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                disableElevation
-                onClick={() => setIsOpen(false)}
-              >
-                Save
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="outlined"
-                onClick={() => setIsOpen(false)}
-                color="error"
-              >
-                Delete
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  isCurrentType("Edit")
-                }}
-              >
-                Modify
-              </Button>
-              <Button
-                variant="contained"
-                disableElevation
-                onClick={() => setIsOpen(false)}
-              >
-                Close
-              </Button>
-            </>
-          )}
+          <Button variant="outlined" onClick={() => setIsOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={() => setIsOpen(false)}
+          >
+            Save
+          </Button>
         </footer>
       </Paper>
     </Modal>
