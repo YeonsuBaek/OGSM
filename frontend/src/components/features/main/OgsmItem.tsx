@@ -9,30 +9,36 @@ interface OgsmItemProps {
 }
 
 const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
-  const deadline = useMemo(() => {
-    if (ogsm.endDate) {
-      const today = moment().format("YYYY-MM-DD")
-      const diff = moment(ogsm.endDate).diff(today, "days")
-      return diff
-    }
-    return null
-  }, [ogsm.endDate])
+  const calculateDaysDiff = (start: string, end?: string) => {
+    const today = moment().format("YYYY-MM-DD")
+    const targetDate = end || today
 
-  const runningDay = useMemo(() => {
-    if (ogsm.startDate) {
-      const today = moment().format("YYYY-MM-DD")
-      const diff = moment(today).diff(ogsm.startDate, "days") + 1
-      return diff
-    }
-    return null
-  }, [ogsm.startDate])
+    return moment(targetDate).diff(start, "days")
+  }
 
-  const dDay = useMemo(() => {
-    if (deadline) {
-      return deadline >= 0 ? `D-${deadline}` : `D+${deadline * -1}`
-    }
-    return "Working towards my goal... 🌟"
-  }, [deadline])
+  const deadline = useMemo(
+    () => calculateDaysDiff(moment().format("YYYY-MM-DD"), ogsm.endDate),
+    [ogsm.endDate]
+  )
+
+  const runningDay = useMemo(
+    () =>
+      calculateDaysDiff(
+        ogsm.startDate || moment().format("YYYY-MM-DD"),
+        moment().format("YYYY-MM-DD")
+      ) + 1,
+    [ogsm.startDate]
+  )
+
+  const formatDaysLabel = (days: number, label: string) => {
+    const formattedDays = days >= 0 ? `D-${deadline}` : `D+${deadline * -1}`
+    return days ? formattedDays : label
+  }
+
+  const dDay = useMemo(
+    () => formatDaysLabel(deadline, "Working towards my goal... 🌟"),
+    [deadline]
+  )
 
   const rDay = useMemo(() => {
     if (runningDay && deadline && deadline >= 0) {
