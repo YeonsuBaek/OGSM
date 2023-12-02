@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, ChangeEvent } from "react"
 import {
   Button,
   FormControl,
@@ -8,20 +8,109 @@ import {
   Modal,
   Paper,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers"
 import { OGSM_TYPE } from "@/app/main/page"
-import moment from "moment"
+import moment, { Moment } from "moment"
 
 interface AddItemModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
   ogsm?: OGSM_TYPE
+  onSave: (newOgsm: OGSM_TYPE) => void
+  setSelectedItem: (id: undefined) => void
 }
 
-const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
+type FORM_TYPE =
+  | "category"
+  | "object"
+  | "goal"
+  | "strategy"
+  | "measure"
+  | "startDate"
+  | "endDate"
+
+const OgsmModal = ({
+  isOpen,
+  setIsOpen,
+  ogsm,
+  onSave,
+  setSelectedItem,
+}: AddItemModalProps) => {
   const [category, setCategory] = useState<string>("Category1")
+  const [object, setObject] = useState<string>(ogsm?.object || "")
+  const [goal, setGoal] = useState<string>(ogsm?.goal || "")
+  const [strategy, setStrategy] = useState<string>(ogsm?.strategy || "")
+  const [measure, setMeasure] = useState<string>(ogsm?.measure || "")
+  const [startDate, setStartDate] = useState<Moment>(moment(null))
+  const [endDate, setEndDate] = useState<Moment>(moment(null))
+
+  const handleChangeInput = (
+    type: FORM_TYPE,
+    e: SelectChangeEvent | ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault()
+
+    const { value } = e.target
+
+    switch (type) {
+      case "category":
+        setCategory(value)
+        break
+      case "object":
+        setObject(value)
+        break
+      case "goal":
+        setGoal(value)
+        break
+      case "strategy":
+        setStrategy(value)
+        break
+      case "measure":
+        setMeasure(value)
+        break
+    }
+  }
+
+  const handleClose = (type: "cancel" | "save") => {
+    if (type === "save") {
+      onSave({
+        id: ogsm?.id || Math.random() * 10,
+        category,
+        object,
+        goal,
+        startDate: moment(startDate).format("YYYY-MM-DD"),
+        endDate: moment(endDate).format("YYYY-MM-DD"),
+        strategy,
+        measure,
+      })
+    }
+    setIsOpen(false)
+    setCategory("Category1")
+    setObject("")
+    setGoal("")
+    setStrategy("")
+    setMeasure("")
+    setStartDate(moment(null))
+    setEndDate(moment(null))
+    setSelectedItem(undefined)
+  }
+
+  useEffect(() => {
+    if (ogsm) {
+      const { category, object, goal, strategy, measure, startDate, endDate } =
+        ogsm
+      setCategory(category)
+      setObject(object)
+      setGoal(goal)
+      setStrategy(strategy)
+      setMeasure(measure)
+      setStartDate(startDate ? moment(startDate) : moment(null))
+      setEndDate(endDate ? moment(endDate) : moment(null))
+    }
+  }, [ogsm])
 
   return (
     <Modal
@@ -64,9 +153,11 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               <Select
                 labelId="select-category-label"
                 aria-labelledby="select-category"
-                value={ogsm?.category || category}
+                value={category}
                 label="Category"
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e: SelectChangeEvent) =>
+                  handleChangeInput("category", e)
+                }
                 size="small"
               >
                 <MenuItem value="Category1">Category1</MenuItem>
@@ -86,7 +177,7 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               Object
             </FormLabel>
             <TextField
-              value={ogsm?.object}
+              value={object}
               aria-labelledby="add-object"
               label="Object"
               variant="outlined"
@@ -94,6 +185,9 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               fullWidth
               multiline
               rows={3}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleChangeInput("object", e)
+              }
             />
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
@@ -107,7 +201,7 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               Goal
             </FormLabel>
             <TextField
-              value={ogsm?.goal}
+              value={goal}
               aria-labelledby="add-goal"
               label="Goal"
               variant="outlined"
@@ -115,6 +209,9 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               fullWidth
               multiline
               rows={3}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleChangeInput("goal", e)
+              }
             />
           </li>
           <li style={{ marginBottom: "8px", listStyleType: "none" }}>
@@ -129,15 +226,23 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
             </FormLabel>
             <>
               <DesktopDatePicker
-                defaultValue={ogsm?.startDate && moment(ogsm?.startDate)}
+                value={startDate}
                 label="Start Date"
+                onChange={(newDate) =>
+                  newDate ? setStartDate(newDate) : setStartDate(moment(null))
+                }
+                format="YYYY/MM/DD"
               />
               <DesktopDatePicker
-                defaultValue={ogsm?.endDate && moment(ogsm?.endDate)}
+                value={endDate}
                 label="End Date"
+                onChange={(newDate) =>
+                  newDate ? setEndDate(newDate) : setStartDate(moment(null))
+                }
+                format="YYYY/MM/DD"
               />
               <TextField
-                value={ogsm?.strategy}
+                value={strategy}
                 aria-labelledby="add-strategy"
                 label="Strategy"
                 variant="outlined"
@@ -145,6 +250,9 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
                 fullWidth
                 multiline
                 rows={3}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeInput("strategy", e)
+                }
               />
             </>
           </li>
@@ -159,7 +267,7 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               Measure
             </FormLabel>
             <TextField
-              value={ogsm?.measure}
+              value={measure}
               aria-labelledby="add-measure"
               label="Measure"
               variant="outlined"
@@ -167,6 +275,9 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
               fullWidth
               multiline
               rows={3}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleChangeInput("measure", e)
+              }
             />
           </li>
         </ul>
@@ -178,13 +289,13 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
             gap: "8px",
           }}
         >
-          <Button variant="outlined" onClick={() => setIsOpen(false)}>
+          <Button variant="outlined" onClick={() => handleClose("cancel")}>
             Cancel
           </Button>
           <Button
             variant="contained"
             disableElevation
-            onClick={() => setIsOpen(false)}
+            onClick={() => handleClose("save")}
           >
             Save
           </Button>

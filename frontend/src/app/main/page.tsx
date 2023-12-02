@@ -18,7 +18,7 @@ export type OGSM_TYPE = {
   measure: string
 }
 
-const ogsmList: OGSM_TYPE[] = [
+const dummyOgsmList: OGSM_TYPE[] = [
   {
     id: 1,
     category: "Category1",
@@ -60,6 +60,7 @@ const ogsmList: OGSM_TYPE[] = [
 ]
 
 const Main = () => {
+  const [ogsmList, setOgsmList] = useState<OGSM_TYPE[]>(dummyOgsmList)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] =
     useState<OGSM_TYPE | undefined>(undefined)
@@ -70,6 +71,27 @@ const Main = () => {
       setSelectedItem(item)
     }
     setIsOpen(true)
+  }
+
+  const onSave = (newOgsm: OGSM_TYPE) => {
+    const hasOgsm = ogsmList.filter((ogsm) => ogsm.id === newOgsm.id)
+    let newOgsmList: OGSM_TYPE[] = ogsmList
+
+    if (hasOgsm.length > 0) {
+      newOgsmList = ogsmList.map((ogsm) => {
+        if (ogsm.id === newOgsm.id) {
+          return {
+            ...ogsm,
+            ...newOgsm,
+          }
+        }
+        return ogsm
+      })
+    } else {
+      newOgsmList.push(newOgsm)
+    }
+
+    setOgsmList(newOgsmList)
   }
 
   return (
@@ -90,7 +112,13 @@ const Main = () => {
           <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
         </main>
       </Container>
-      <OgsmModal isOpen={isOpen} setIsOpen={setIsOpen} ogsm={selectedItem} />
+      <OgsmModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        ogsm={selectedItem}
+        onSave={onSave}
+        setSelectedItem={setSelectedItem}
+      />
     </>
   )
 }
