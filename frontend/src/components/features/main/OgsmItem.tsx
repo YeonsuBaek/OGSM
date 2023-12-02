@@ -42,8 +42,8 @@ const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
 
   const rDay = useMemo(() => {
     if (runningDay && deadline && deadline >= 0) {
-      const suffix = ["", "st", "rd", "th"]
-      const suffixIndex = runningDay >= 3 ? 3 : runningDay <= 0 ? 0 : runningDay
+      const suffix = ["", "st", "nd", "rd", "th"]
+      const suffixIndex = runningDay <= 0 ? 0 : runningDay >= 4 ? 4 : runningDay
 
       return `(${runningDay}${suffix[suffixIndex]} day)`
     }
