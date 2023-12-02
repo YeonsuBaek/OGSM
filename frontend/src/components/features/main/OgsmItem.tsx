@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import { Divider, ListItem, ListItemText } from "@mui/material"
-import { OGSM_TYPE } from "@/app/main/page"
+import { OGSM_TYPE } from "@/types"
 import moment from "moment"
 
 interface OgsmItemProps {

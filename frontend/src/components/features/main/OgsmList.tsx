@@ -1,7 +1,7 @@
 import React from "react"
 import { List } from "@mui/material"
 import OgsmItem from "./OgsmItem"
-import { OGSM_TYPE } from "@/app/main/page"
+import { OGSM_TYPE } from "@/types"
 
 interface OgsmListProps {
   onOpenModal: (id?: number) => void

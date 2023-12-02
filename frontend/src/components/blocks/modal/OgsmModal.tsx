@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers"
-import { OGSM_TYPE } from "@/app/main/page"
+import { OGSM_TYPE } from "@/types"
 import moment, { Moment } from "moment"
 
 interface AddItemModalProps {

@@ -4,19 +4,7 @@ import { Add } from "@mui/icons-material"
 import { Button, Container } from "@mui/material"
 import OgsmList from "@/components/features/main/OgsmList"
 import OgsmModal from "@/components/blocks/modal/OgsmModal"
-
-export type MODAL_TYPE = "Edit" | "View"
-
-export type OGSM_TYPE = {
-  id: number
-  category: string
-  object: string
-  goal: string
-  startDate?: string
-  endDate?: string
-  strategy: string
-  measure: string
-}
+import { OGSM_TYPE } from "@/types"
 
 const dummyOgsmList: OGSM_TYPE[] = [
   {
