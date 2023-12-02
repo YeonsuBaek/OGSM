@@ -5,10 +5,10 @@ import moment from "moment"
 
 interface OgsmItemProps {
   ogsm: OGSM_TYPE
-  setIsOpen: (isOpen: boolean) => void
+  onOpenModal: (id?: number) => void
 }
 
-const OgsmItem = ({ ogsm, setIsOpen }: OgsmItemProps) => {
+const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
   const deadline = useMemo(() => {
     if (ogsm.endDate) {
       const today = moment().format("YYYY-MM-DD")
@@ -46,12 +46,7 @@ const OgsmItem = ({ ogsm, setIsOpen }: OgsmItemProps) => {
 
   return (
     <>
-      <ListItem
-        role="button"
-        onClick={() => {
-          setIsOpen(true)
-        }}
-      >
+      <ListItem role="button" onClick={() => onOpenModal(ogsm.id)}>
         <ListItemText primary={ogsm.goal} secondary={`${dDay} ${rDay}`} />
       </ListItem>
       <Divider component="li" />

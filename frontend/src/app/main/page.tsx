@@ -8,7 +8,7 @@ import OgsmModal from "@/components/blocks/modal/OgsmModal"
 export type MODAL_TYPE = "Edit" | "View"
 
 export type OGSM_TYPE = {
-  id: string
+  id: number
   category: string
   object: string
   goal: string
@@ -20,7 +20,7 @@ export type OGSM_TYPE = {
 
 const ogsmList: OGSM_TYPE[] = [
   {
-    id: "data1",
+    id: 1,
     category: "Category1",
     object: "Object1",
     goal: "Goal1",
@@ -30,7 +30,7 @@ const ogsmList: OGSM_TYPE[] = [
     measure: "Measure1",
   },
   {
-    id: "data2",
+    id: 2,
     category: "Category2",
     object: "Object2",
     goal: "Goal2",
@@ -40,7 +40,7 @@ const ogsmList: OGSM_TYPE[] = [
     measure: "Measure2",
   },
   {
-    id: "data3",
+    id: 3,
     category: "Category3",
     object: "Object1",
     goal: "Goal3",
@@ -48,7 +48,7 @@ const ogsmList: OGSM_TYPE[] = [
     measure: "Measure3",
   },
   {
-    id: "data4",
+    id: 4,
     category: "Category4",
     object: "Object4",
     goal: "Goal4",
@@ -61,6 +61,16 @@ const ogsmList: OGSM_TYPE[] = [
 
 const Main = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [selectedItem, setSelectedItem] =
+    useState<OGSM_TYPE | undefined>(undefined)
+
+  const handleOpenModal = (id?: number) => {
+    if (id) {
+      const item = ogsmList.find((ogsm) => ogsm.id === id)
+      setSelectedItem(item)
+    }
+    setIsOpen(true)
+  }
 
   return (
     <>
@@ -77,10 +87,10 @@ const Main = () => {
           >
             Add OGSM
           </Button>
-          <OgsmList ogsmList={ogsmList} setIsOpen={setIsOpen} />
+          <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
         </main>
       </Container>
-      <OgsmModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <OgsmModal isOpen={isOpen} setIsOpen={setIsOpen} ogsm={selectedItem} />
     </>
   )
 }

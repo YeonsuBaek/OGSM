@@ -4,11 +4,11 @@ import OgsmItem from "./OgsmItem"
 import { OGSM_TYPE } from "@/app/main/page"
 
 interface OgsmListProps {
-  setIsOpen: (isOpen: boolean) => void
+  onOpenModal: (id?: number) => void
   ogsmList: OGSM_TYPE[]
 }
 
-const OgsmList = ({ setIsOpen, ogsmList }: OgsmListProps) => {
+const OgsmList = ({ onOpenModal, ogsmList }: OgsmListProps) => {
   return (
     <List
       sx={{
@@ -18,7 +18,7 @@ const OgsmList = ({ setIsOpen, ogsmList }: OgsmListProps) => {
       }}
     >
       {ogsmList.map((ogsm: OGSM_TYPE) => {
-        return <OgsmItem ogsm={ogsm} setIsOpen={setIsOpen} key={ogsm.id} />
+        return <OgsmItem ogsm={ogsm} onOpenModal={onOpenModal} key={ogsm.id} />
       })}
     </List>
   )

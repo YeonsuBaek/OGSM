@@ -11,13 +11,16 @@ import {
   TextField,
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers"
+import { OGSM_TYPE } from "@/app/main/page"
+import moment from "moment"
 
 interface AddItemModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
+  ogsm?: OGSM_TYPE
 }
 
-const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
+const OgsmModal = ({ isOpen, setIsOpen, ogsm }: AddItemModalProps) => {
   const [category, setCategory] = useState<string>("Category1")
 
   return (
@@ -61,7 +64,7 @@ const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
               <Select
                 labelId="select-category-label"
                 aria-labelledby="select-category"
-                value={category}
+                value={ogsm?.category || category}
                 label="Category"
                 onChange={(e) => setCategory(e.target.value)}
                 size="small"
@@ -83,6 +86,7 @@ const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
               Object
             </FormLabel>
             <TextField
+              value={ogsm?.object}
               aria-labelledby="add-object"
               label="Object"
               variant="outlined"
@@ -103,6 +107,7 @@ const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
               Goal
             </FormLabel>
             <TextField
+              value={ogsm?.goal}
               aria-labelledby="add-goal"
               label="Goal"
               variant="outlined"
@@ -123,9 +128,16 @@ const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
               Strategy
             </FormLabel>
             <>
-              <DesktopDatePicker label="Start Date" />
-              <DesktopDatePicker label="End Date" />
+              <DesktopDatePicker
+                defaultValue={ogsm?.startDate && moment(ogsm?.startDate)}
+                label="Start Date"
+              />
+              <DesktopDatePicker
+                defaultValue={ogsm?.endDate && moment(ogsm?.endDate)}
+                label="End Date"
+              />
               <TextField
+                value={ogsm?.strategy}
                 aria-labelledby="add-strategy"
                 label="Strategy"
                 variant="outlined"
@@ -147,6 +159,7 @@ const OgsmModal = ({ isOpen, setIsOpen }: AddItemModalProps) => {
               Measure
             </FormLabel>
             <TextField
+              value={ogsm?.measure}
               aria-labelledby="add-measure"
               label="Measure"
               variant="outlined"
