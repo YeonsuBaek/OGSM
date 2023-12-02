@@ -73,6 +73,11 @@ const Main = () => {
     setIsOpen(true)
   }
 
+  const onDelete = (id: number) => {
+    const newOgsmList = ogsmList.filter((ogsm) => ogsm.id !== id)
+    setOgsmList(newOgsmList)
+  }
+
   const onSave = (newOgsm: OGSM_TYPE) => {
     const hasOgsm = ogsmList.filter((ogsm) => ogsm.id === newOgsm.id)
     let newOgsmList: OGSM_TYPE[] = ogsmList
@@ -116,6 +121,7 @@ const Main = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         ogsm={selectedItem}
+        onDelete={onDelete}
         onSave={onSave}
         setSelectedItem={setSelectedItem}
       />

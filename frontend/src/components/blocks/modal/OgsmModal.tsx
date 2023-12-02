@@ -19,6 +19,7 @@ interface AddItemModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
   ogsm?: OGSM_TYPE
+  onDelete: (id: number) => void
   onSave: (newOgsm: OGSM_TYPE) => void
   setSelectedItem: (id: undefined) => void
 }
@@ -36,6 +37,7 @@ const OgsmModal = ({
   isOpen,
   setIsOpen,
   ogsm,
+  onDelete,
   onSave,
   setSelectedItem,
 }: AddItemModalProps) => {
@@ -74,7 +76,11 @@ const OgsmModal = ({
     }
   }
 
-  const handleClose = (type: "cancel" | "save") => {
+  const handleClose = (type: "delete" | "cancel" | "save") => {
+    if (type === "delete" && ogsm) {
+      onDelete(ogsm.id)
+    }
+
     if (type === "save") {
       onSave({
         id: ogsm?.id || Math.random() * 10,
@@ -289,6 +295,15 @@ const OgsmModal = ({
             gap: "8px",
           }}
         >
+          {ogsm && (
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => handleClose("delete")}
+            >
+              Delete
+            </Button>
+          )}
           <Button variant="outlined" onClick={() => handleClose("cancel")}>
             Cancel
           </Button>
