@@ -67,21 +67,19 @@ const Main = () => {
   }
 
   const onSave = (newOgsm: OGSM_TYPE) => {
-    const hasOgsm = ogsmList.filter((ogsm) => ogsm.id === newOgsm.id)
-    let newOgsmList: OGSM_TYPE[] = ogsmList
+    const existingOgsmIndex = ogsmList.findIndex(
+      (ogsm) => ogsm.id === newOgsm.id
+    )
+    let newOgsmList: OGSM_TYPE[]
 
-    if (hasOgsm.length > 0) {
-      newOgsmList = ogsmList.map((ogsm) => {
-        if (ogsm.id === newOgsm.id) {
-          return {
-            ...ogsm,
-            ...newOgsm,
-          }
-        }
-        return ogsm
-      })
+    if (existingOgsmIndex !== -1) {
+      newOgsmList = [...ogsmList]
+      newOgsmList[existingOgsmIndex] = {
+        ...ogsmList[existingOgsmIndex],
+        ...newOgsm,
+      }
     } else {
-      newOgsmList.push(newOgsm)
+      newOgsmList = [...ogsmList, newOgsm]
     }
 
     setOgsmList(newOgsmList)
