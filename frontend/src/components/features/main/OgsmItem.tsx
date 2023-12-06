@@ -52,7 +52,11 @@ const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
 
   return (
     <>
-      <ListItem role="button" onClick={() => onOpenModal(ogsm.id)}>
+      <ListItem
+        className="ogsm-item"
+        role="button"
+        onClick={() => onOpenModal(ogsm.id)}
+      >
         <ListItemText primary={ogsm.goal} secondary={`${dDay} ${rDay}`} />
       </ListItem>
       <Divider component="li" />

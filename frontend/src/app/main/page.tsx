@@ -87,18 +87,16 @@ const Main = () => {
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <main>
-          <h1 style={{ fontSize: "24px", margin: "20px 0px" }}>
-            You can do it!
-          </h1>
+          <h1 className="ogsm-title">You can do it!</h1>
           <Button
             onClick={() => setIsOpen(true)}
             variant="contained"
             startIcon={<Add />}
-            style={{ textTransform: "none", marginBottom: "16px" }}
+            className="ogsm-add-button"
           >
-            Add OGSM
+            OGSM
           </Button>
           <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
         </main>
