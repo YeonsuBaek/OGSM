@@ -101,14 +101,16 @@ const Main = () => {
           <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
         </main>
       </Container>
-      <OgsmModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        ogsm={selectedItem}
-        onDelete={onDelete}
-        onSave={onSave}
-        setSelectedItem={setSelectedItem}
-      />
+      {isOpen && (
+        <OgsmModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          ogsm={selectedItem}
+          onDelete={onDelete}
+          onSave={onSave}
+          setSelectedItem={setSelectedItem}
+        />
+      )}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import { Divider, ListItem, ListItemText } from "@mui/material"
-import { OGSM_TYPE } from "@/types"
+import { OGSM_TYPE, NUMBER_SUFFIX } from "@/types"
 import moment from "moment"
 
 interface OgsmItemProps {
@@ -42,10 +42,15 @@ const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
 
   const rDay = useMemo(() => {
     if (runningDay && deadline && deadline >= 0) {
-      const suffix = ["", "st", "nd", "rd", "th"]
-      const suffixIndex = runningDay <= 0 ? 0 : runningDay >= 4 ? 4 : runningDay
+      const suffix = (day: number) => {
+        if (day <= 0) return NUMBER_SUFFIX.NULL
+        if (day === 1) return NUMBER_SUFFIX.FIRST
+        if (day === 2) return NUMBER_SUFFIX.SECOND
+        if (day === 3) return NUMBER_SUFFIX.THIRD
+        return NUMBER_SUFFIX.OTHER
+      }
 
-      return `(${runningDay}${suffix[suffixIndex]} day)`
+      return `(${runningDay}${suffix(runningDay)} day)`
     }
     return ""
   }, [runningDay, deadline])

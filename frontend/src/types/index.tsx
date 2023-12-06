@@ -8,3 +8,11 @@ export type OGSM_TYPE = {
   strategy: string
   measure: string
 }
+
+export enum NUMBER_SUFFIX {
+  NULL = "",
+  FIRST = "st",
+  SECOND = "nd",
+  THIRD = "rd",
+  OTHER = "th",
+}

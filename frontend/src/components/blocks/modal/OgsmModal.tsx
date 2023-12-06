@@ -32,6 +32,8 @@ type FORM_TYPE =
   | "startDate"
   | "endDate"
 
+type BUTTON_TYPE = "delete" | "cancel" | "save"
+
 const OgsmModal = ({
   isOpen,
   setIsOpen,
@@ -54,7 +56,6 @@ const OgsmModal = ({
     e: SelectChangeEvent | ChangeEvent<HTMLInputElement>
   ) => {
     e.preventDefault()
-
     const { value } = e.target
 
     switch (type) {
@@ -76,7 +77,7 @@ const OgsmModal = ({
     }
   }
 
-  const handleClose = (type: "delete" | "cancel" | "save") => {
+  const handleClose = (type: BUTTON_TYPE) => {
     if (type === "delete" && ogsm) {
       onDelete(ogsm.id)
     }
@@ -99,8 +100,8 @@ const OgsmModal = ({
     setGoal("")
     setStrategy("")
     setMeasure("")
-    setStartDate(moment(null))
-    setEndDate(moment(null))
+    setStartDate(null)
+    setEndDate(null)
     setSelectedItem(undefined)
   }
 
@@ -139,7 +140,10 @@ const OgsmModal = ({
         <div className="ogsm-modal-content">
           <ul className="ogsm-modal-form-list">
             <li className="ogsm-modal-form">
-              <FormLabel id="select-category" className="ogsm-modal-form-title">
+              <FormLabel
+                htmlFor="select-category"
+                className="ogsm-modal-form-title"
+              >
                 Category
               </FormLabel>
               <FormControl fullWidth>
@@ -158,7 +162,7 @@ const OgsmModal = ({
               </FormControl>
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-object" className="ogsm-modal-form-title">
+              <FormLabel htmlFor="add-object" className="ogsm-modal-form-title">
                 Object
               </FormLabel>
               <TextField
@@ -177,7 +181,7 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-goal" className="ogsm-modal-form-title">
+              <FormLabel htmlFor="add-goal" className="ogsm-modal-form-title">
                 Goal
               </FormLabel>
               <TextField
@@ -196,7 +200,10 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-startdate" className="ogsm-modal-form-title">
+              <FormLabel
+                htmlFor="add-startdate"
+                className="ogsm-modal-form-title"
+              >
                 Start Date
               </FormLabel>
               <DesktopDatePicker
@@ -214,7 +221,10 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-enddate" className="ogsm-modal-form-title">
+              <FormLabel
+                htmlFor="add-enddate"
+                className="ogsm-modal-form-title"
+              >
                 End Date
               </FormLabel>
               <DesktopDatePicker
@@ -232,7 +242,10 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-strategy" className="ogsm-modal-form-title">
+              <FormLabel
+                htmlFor="add-strategy"
+                className="ogsm-modal-form-title"
+              >
                 Strategy
               </FormLabel>
               <TextField
@@ -251,7 +264,10 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel id="add-measure" className="ogsm-modal-form-title">
+              <FormLabel
+                htmlFor="add-measure"
+                className="ogsm-modal-form-title"
+              >
                 Measure
               </FormLabel>
               <TextField
