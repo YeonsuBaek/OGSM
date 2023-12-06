@@ -3,7 +3,6 @@ import {
   Button,
   FormControl,
   FormLabel,
-  InputLabel,
   MenuItem,
   Modal,
   Paper,
@@ -46,8 +45,9 @@ const OgsmModal = ({
   const [goal, setGoal] = useState<string>(ogsm?.goal || "")
   const [strategy, setStrategy] = useState<string>(ogsm?.strategy || "")
   const [measure, setMeasure] = useState<string>(ogsm?.measure || "")
-  const [startDate, setStartDate] = useState<Moment>(moment(null))
-  const [endDate, setEndDate] = useState<Moment>(moment(null))
+  const [startDate, setStartDate] = useState<Moment | null>(null)
+  const [endDate, setEndDate] = useState<Moment | null>(null)
+  const [clearedDate, setClearedDate] = useState<boolean>(false)
 
   const handleChangeInput = (
     type: FORM_TYPE,
@@ -113,144 +113,133 @@ const OgsmModal = ({
       setGoal(goal)
       setStrategy(strategy)
       setMeasure(measure)
-      setStartDate(startDate ? moment(startDate) : moment(null))
-      setEndDate(endDate ? moment(endDate) : moment(null))
+      setStartDate(startDate ? moment(startDate) : null)
+      setEndDate(endDate ? moment(endDate) : null)
     }
   }, [ogsm])
+
+  useEffect(() => {
+    if (clearedDate) {
+      const timeout = setTimeout(() => {
+        setClearedDate(false)
+      }, 0)
+      return () => clearTimeout(timeout)
+    }
+    return () => {}
+  }, [clearedDate])
 
   return (
     <Modal
       open={isOpen}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
     >
-      <Paper
-        elevation={3}
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          width: "80%",
-          height: "480px",
-          padding: "16px",
-          backgroundColor: "#fff",
-          overflowY: "auto",
-        }}
-      >
-        <h2 style={{ fontSize: "18px", marginBottom: "16px" }}>Your OGSM</h2>
-        <ul style={{ marginBottom: "16px" }}>
-          <li style={{ marginBottom: "8px", listStyleType: "none" }}>
-            <FormLabel
-              id="select-category"
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Category
-            </FormLabel>
-            <FormControl fullWidth>
-              <InputLabel id="select-category-label">Category</InputLabel>
-              <Select
-                labelId="select-category-label"
-                aria-labelledby="select-category"
-                value={category}
-                label="Category"
-                onChange={(e: SelectChangeEvent) =>
-                  handleChangeInput("category", e)
-                }
+      <Paper elevation={3} className="ogsm-modal">
+        <h2 className="ogsm-modal-title">Your OGSM</h2>
+        <div className="ogsm-modal-content">
+          <ul className="ogsm-modal-form-list">
+            <li className="ogsm-modal-form">
+              <FormLabel id="select-category" className="ogsm-modal-form-title">
+                Category
+              </FormLabel>
+              <FormControl fullWidth>
+                <Select
+                  id="select-category"
+                  value={category}
+                  onChange={(e: SelectChangeEvent) =>
+                    handleChangeInput("category", e)
+                  }
+                  size="small"
+                >
+                  <MenuItem value="Category1">Category1</MenuItem>
+                  <MenuItem value="Category2">Category2</MenuItem>
+                  <MenuItem value="Category3">Category3</MenuItem>
+                </Select>
+              </FormControl>
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-object" className="ogsm-modal-form-title">
+                Object
+              </FormLabel>
+              <TextField
+                hiddenLabel
+                value={object}
+                id="add-object"
+                placeholder="Enter the object"
+                variant="outlined"
                 size="small"
-              >
-                <MenuItem value="Category1">Category1</MenuItem>
-                <MenuItem value="Category2">Category2</MenuItem>
-                <MenuItem value="Category3">Category3</MenuItem>
-              </Select>
-            </FormControl>
-          </li>
-          <li style={{ marginBottom: "8px", listStyleType: "none" }}>
-            <FormLabel
-              id="add-object"
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Object
-            </FormLabel>
-            <TextField
-              value={object}
-              aria-labelledby="add-object"
-              label="Object"
-              variant="outlined"
-              size="small"
-              fullWidth
-              multiline
-              rows={3}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChangeInput("object", e)
-              }
-            />
-          </li>
-          <li style={{ marginBottom: "8px", listStyleType: "none" }}>
-            <FormLabel
-              id="add-goal"
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Goal
-            </FormLabel>
-            <TextField
-              value={goal}
-              aria-labelledby="add-goal"
-              label="Goal"
-              variant="outlined"
-              size="small"
-              fullWidth
-              multiline
-              rows={3}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChangeInput("goal", e)
-              }
-            />
-          </li>
-          <li style={{ marginBottom: "8px", listStyleType: "none" }}>
-            <FormLabel
-              id="add-strategy"
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Strategy
-            </FormLabel>
-            <>
+                fullWidth
+                multiline
+                rows={3}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeInput("object", e)
+                }
+              />
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-goal" className="ogsm-modal-form-title">
+                Goal
+              </FormLabel>
+              <TextField
+                hiddenLabel
+                value={goal}
+                id="add-goal"
+                placeholder="Enter the goal"
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                rows={3}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeInput("goal", e)
+                }
+              />
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-startdate" className="ogsm-modal-form-title">
+                Start Date
+              </FormLabel>
               <DesktopDatePicker
                 value={startDate}
-                label="Start Date"
                 onChange={(newDate) =>
-                  newDate ? setStartDate(newDate) : setStartDate(moment(null))
+                  newDate ? setStartDate(newDate) : setStartDate(null)
                 }
                 format="YYYY/MM/DD"
+                slotProps={{
+                  field: {
+                    clearable: true,
+                    onClear: () => setClearedDate(true),
+                  },
+                }}
               />
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-enddate" className="ogsm-modal-form-title">
+                End Date
+              </FormLabel>
               <DesktopDatePicker
                 value={endDate}
-                label="End Date"
                 onChange={(newDate) =>
-                  newDate ? setEndDate(newDate) : setStartDate(moment(null))
+                  newDate ? setEndDate(newDate) : setEndDate(null)
                 }
                 format="YYYY/MM/DD"
+                slotProps={{
+                  field: {
+                    clearable: true,
+                    onClear: () => setClearedDate(true),
+                  },
+                }}
               />
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-strategy" className="ogsm-modal-form-title">
+                Strategy
+              </FormLabel>
               <TextField
+                hiddenLabel
                 value={strategy}
-                aria-labelledby="add-strategy"
-                label="Strategy"
+                id="add-strategy"
+                placeholder="Enter the strategy"
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -260,61 +249,49 @@ const OgsmModal = ({
                   handleChangeInput("strategy", e)
                 }
               />
-            </>
-          </li>
-          <li style={{ marginBottom: "8px", listStyleType: "none" }}>
-            <FormLabel
-              id="add-measure"
-              style={{
-                fontSize: "14px",
-                fontWeight: "700",
-              }}
-            >
-              Measure
-            </FormLabel>
-            <TextField
-              value={measure}
-              aria-labelledby="add-measure"
-              label="Measure"
-              variant="outlined"
-              size="small"
-              fullWidth
-              multiline
-              rows={3}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChangeInput("measure", e)
-              }
-            />
-          </li>
-        </ul>
-        <footer
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            gap: "8px",
-          }}
-        >
-          {ogsm && (
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => handleClose("delete")}
-            >
-              Delete
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel id="add-measure" className="ogsm-modal-form-title">
+                Measure
+              </FormLabel>
+              <TextField
+                hiddenLabel
+                value={measure}
+                id="add-measure"
+                placeholder="Enter the measure"
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                rows={3}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChangeInput("measure", e)
+                }
+              />
+            </li>
+          </ul>
+          <footer className="ogsm-modal-footer">
+            {ogsm && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => handleClose("delete")}
+              >
+                Delete
+              </Button>
+            )}
+            <Button variant="outlined" onClick={() => handleClose("cancel")}>
+              Cancel
             </Button>
-          )}
-          <Button variant="outlined" onClick={() => handleClose("cancel")}>
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            disableElevation
-            onClick={() => handleClose("save")}
-          >
-            Save
-          </Button>
-        </footer>
+            <Button
+              variant="contained"
+              disableElevation
+              onClick={() => handleClose("save")}
+            >
+              Save
+            </Button>
+          </footer>
+        </div>
       </Paper>
     </Modal>
   )

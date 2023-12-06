@@ -9,3 +9,90 @@
 body {
   font-family: "Spoqa Han Sans Neo", "sans-serif";
 }
+
+.ogsm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.ogsm-modal-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+}
+
+.ogsm-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.ogsm-modal-form-list {
+  padding: 0 16px;
+}
+
+.ogsm-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+  list-style-type: none;
+}
+
+.ogsm-modal-form:last-child {
+  margin-bottom: 0;
+}
+
+.ogsm-modal-form-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ogsm-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+}
+
+@media screen and (min-width: 480px) {
+  .ogsm-modal {
+    width: 80%;
+    max-width: 480px;
+    height: calc(100% - 64px);
+    max-height: 800px;
+    border-radius: 4px !important;
+  }
+
+  .ogsm-modal-title {
+    padding: 24px;
+    font-size: 20px;
+  }
+
+  .ogsm-modal-form-list {
+    padding: 0 24px;
+  }
+
+  .ogsm-modal-form-title {
+    font-size: 16px;
+  }
+
+  .ogsm-modal-footer {
+    padding: 24px;
+  }
+}
