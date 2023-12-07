@@ -10,10 +10,7 @@ import useSaveOgsm from "@/hooks/useSaveOgsm"
 
 const Main = () => {
   const { data: ogsmList } = useGetOgsm()
-  const { mutate: mutateSaveOgsm } = useSaveOgsm({
-    onSuccess: () => console.log("success"),
-    onError: () => console.log("error"),
-  })
+  const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
     undefined
@@ -47,7 +44,13 @@ const Main = () => {
     //   newOgsmList = [...ogsmList, newOgsm]
     // }
 
-    mutateSaveOgsm({ newOgsm })
+    mutateSaveOgsm(
+      { newOgsm },
+      {
+        onSuccess: () => console.log("success"),
+        onError: () => console.log("error"),
+      }
+    )
   }
 
   return (

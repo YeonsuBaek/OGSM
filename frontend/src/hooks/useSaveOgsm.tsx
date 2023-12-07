@@ -1,20 +1,20 @@
 import { OGSM_TYPE } from "@/types"
 import { useState } from "react"
 
-interface mutationFnType {
-  onSuccess: () => void
-  onError: () => void
-}
-
 type DATA_TYPE = {
   newOgsm: OGSM_TYPE
 }
 
-const useSaveOgsm = (mutationFn: mutationFnType) => {
+type MUTATION_FN_TYPE = {
+  onSuccess: () => void
+  onError: () => void
+}
+
+const useSaveOgsm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<any>(null)
 
-  const mutate = async (data: DATA_TYPE) => {
+  const mutate = async (data: DATA_TYPE, mutationFn: MUTATION_FN_TYPE) => {
     const { newOgsm } = data
     const { onSuccess, onError } = mutationFn
     setIsLoading(true)

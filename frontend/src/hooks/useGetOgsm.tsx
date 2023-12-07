@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 const useFetchOgsm = () => {
   const [data, setData] = useState<OGSM_TYPE[]>([])
-  const [error, setError] = useState<any>(null)
+  const [error, setError] = useState<unknown | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
