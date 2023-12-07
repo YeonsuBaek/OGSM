@@ -6,9 +6,14 @@ import OgsmList from "@/components/features/main/OgsmList"
 import OgsmModal from "@/components/blocks/modal/OgsmModal"
 import { OGSM_TYPE } from "@/types"
 import useGetOgsm from "@/hooks/useGetOgsm"
+import useSaveOgsm from "@/hooks/useSaveOgsm"
 
 const Main = () => {
   const { data: ogsmList } = useGetOgsm()
+  const { mutate: mutateSaveOgsm } = useSaveOgsm({
+    onSuccess: () => console.log("success"),
+    onError: () => console.log("error"),
+  })
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
     undefined
@@ -27,20 +32,22 @@ const Main = () => {
   }
 
   const onSave = (newOgsm: OGSM_TYPE) => {
-    const existingOgsmIndex = ogsmList.findIndex(
-      (ogsm) => ogsm.id === newOgsm.id
-    )
-    let newOgsmList: OGSM_TYPE[]
+    // const existingOgsmIndex = ogsmList.findIndex(
+    //   (ogsm) => ogsm.id === newOgsm.id
+    // )
+    // let newOgsmList: OGSM_TYPE[]
 
-    if (existingOgsmIndex !== -1) {
-      newOgsmList = [...ogsmList]
-      newOgsmList[existingOgsmIndex] = {
-        ...ogsmList[existingOgsmIndex],
-        ...newOgsm,
-      }
-    } else {
-      newOgsmList = [...ogsmList, newOgsm]
-    }
+    // if (existingOgsmIndex !== -1) {
+    //   newOgsmList = [...ogsmList]
+    //   newOgsmList[existingOgsmIndex] = {
+    //     ...ogsmList[existingOgsmIndex],
+    //     ...newOgsm,
+    //   }
+    // } else {
+    //   newOgsmList = [...ogsmList, newOgsm]
+    // }
+
+    mutateSaveOgsm({ newOgsm })
   }
 
   return (
