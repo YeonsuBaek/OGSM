@@ -10,6 +10,12 @@ body {
   font-family: "Spoqa Han Sans Neo", "sans-serif";
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .ogsm-title {
   font-size: 20px;
   margin: 16px 0;

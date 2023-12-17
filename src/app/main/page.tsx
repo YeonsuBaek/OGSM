@@ -8,7 +8,9 @@ import { OGSM_TYPE } from "@/types"
 import useGetOgsm from "@/hooks/useGetOgsm"
 import useSaveOgsm from "@/hooks/useSaveOgsm"
 import useLogin from "@/hooks/useLogin"
+import useLogout from "@/hooks/useLogout"
 import { GoogleAuthProvider } from "firebase/auth"
+import { auth } from "../../../firebase.config"
 
 const Main = () => {
   const { data: ogsmList } = useGetOgsm()
@@ -17,6 +19,7 @@ const Main = () => {
   const [selectedItem, setSelectedItem] =
     useState<OGSM_TYPE | undefined>(undefined)
   const { mutate: mutateLogin } = useLogin()
+  const { mutate: mutateLogout } = useLogout()
   const [userData, setUserData] = useState<any>(null)
 
   const handleOpenModal = (id?: number) => {
@@ -69,16 +72,35 @@ const Main = () => {
     })
   }
 
+  const handleLogout = () => {
+    mutateLogout(auth, {
+      onSuccess: () => {
+        setUserData(null)
+      },
+      onError: () => {
+        console.log("Not Found")
+      },
+    })
+  }
+
   return (
     <>
       <Container maxWidth="md">
         <main>
-          <h1 className="ogsm-title">You can do it!</h1>
-          {userData ? (
-            <span>{userData.displayName}</span>
-          ) : (
-            <button onClick={handleLogin}>로그인</button>
-          )}
+          <header className="header">
+            <h1 className="ogsm-title">
+              {userData ? `${userData.displayName}'s OGSM` : "You can do it!"}
+            </h1>
+            {userData ? (
+              <Button variant="text" onClick={handleLogout}>
+                로그아웃
+              </Button>
+            ) : (
+              <Button variant="text" onClick={handleLogin}>
+                로그인
+              </Button>
+            )}
+          </header>
           <Button
             onClick={() => setIsOpen(true)}
             variant="contained"
