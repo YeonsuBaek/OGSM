@@ -7,14 +7,17 @@ import OgsmModal from "@/components/blocks/modal/OgsmModal"
 import { OGSM_TYPE } from "@/types"
 import useGetOgsm from "@/hooks/useGetOgsm"
 import useSaveOgsm from "@/hooks/useSaveOgsm"
+import useLogin from "@/hooks/useLogin"
+import { GoogleAuthProvider } from "firebase/auth"
 
 const Main = () => {
   const { data: ogsmList } = useGetOgsm()
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
-    undefined
-  )
+  const [selectedItem, setSelectedItem] =
+    useState<OGSM_TYPE | undefined>(undefined)
+  const { mutate: mutateLogin } = useLogin()
+  const [userData, setUserData] = useState<any>(null)
 
   const handleOpenModal = (id?: number) => {
     if (id) {
@@ -53,11 +56,29 @@ const Main = () => {
     )
   }
 
+  const handleLogin = () => {
+    const provider = new GoogleAuthProvider()
+
+    mutateLogin(provider, {
+      onSuccess: (res) => {
+        setUserData(res.user)
+      },
+      onError: () => {
+        console.log("Not Found")
+      },
+    })
+  }
+
   return (
     <>
       <Container maxWidth="md">
         <main>
           <h1 className="ogsm-title">You can do it!</h1>
+          {userData ? (
+            <span>{userData.displayName}</span>
+          ) : (
+            <button onClick={handleLogin}>로그인</button>
+          )}
           <Button
             onClick={() => setIsOpen(true)}
             variant="contained"
