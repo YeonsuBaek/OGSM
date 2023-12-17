@@ -11,8 +11,10 @@ import useLogin from "@/hooks/useLogin"
 import useLogout from "@/hooks/useLogout"
 import { GoogleAuthProvider } from "firebase/auth"
 import { auth } from "../../../firebase.config"
+import useAuth from "@/hooks/useAuth"
 
 const Main = () => {
+  const { user, login } = useAuth()
   const { data: ogsmList } = useGetOgsm()
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -20,7 +22,6 @@ const Main = () => {
     useState<OGSM_TYPE | undefined>(undefined)
   const { mutate: mutateLogin } = useLogin()
   const { mutate: mutateLogout } = useLogout()
-  const [userData, setUserData] = useState<any>(null)
 
   const handleOpenModal = (id?: number) => {
     if (id) {
@@ -64,7 +65,7 @@ const Main = () => {
 
     mutateLogin(provider, {
       onSuccess: (res) => {
-        setUserData(res.user)
+        login(res)
       },
       onError: () => {
         console.log("Not Found")
@@ -75,7 +76,7 @@ const Main = () => {
   const handleLogout = () => {
     mutateLogout(auth, {
       onSuccess: () => {
-        setUserData(null)
+        login(null)
       },
       onError: () => {
         console.log("Not Found")
@@ -89,9 +90,9 @@ const Main = () => {
         <main>
           <header className="header">
             <h1 className="ogsm-title">
-              {userData ? `${userData.displayName}'s OGSM` : "You can do it!"}
+              {user ? `${user?.user.displayName}'s OGSM` : "You can do it!"}
             </h1>
-            {userData ? (
+            {user ? (
               <Button variant="text" onClick={handleLogout}>
                 로그아웃
               </Button>
