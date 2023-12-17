@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Add } from "@mui/icons-material"
 import { Button, Container } from "@mui/material"
 import OgsmList from "@/components/features/main/OgsmList"
@@ -12,6 +12,7 @@ import useLogout from "@/hooks/useLogout"
 import { GoogleAuthProvider } from "firebase/auth"
 import { auth } from "../../../firebase.config"
 import useAuth from "@/hooks/useAuth"
+import { getAuth } from "firebase/auth"
 
 const Main = () => {
   const { user, login } = useAuth()
@@ -22,6 +23,7 @@ const Main = () => {
     useState<OGSM_TYPE | undefined>(undefined)
   const { mutate: mutateLogin } = useLogin()
   const { mutate: mutateLogout } = useLogout()
+  const authService = getAuth()
 
   const handleOpenModal = (id?: number) => {
     if (id) {
@@ -65,7 +67,7 @@ const Main = () => {
 
     mutateLogin(provider, {
       onSuccess: (res) => {
-        login(res)
+        login(res.user)
       },
       onError: () => {
         console.log("Not Found")
@@ -84,13 +86,21 @@ const Main = () => {
     })
   }
 
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        login(user)
+      }
+    })
+  }, [])
+
   return (
     <>
       <Container maxWidth="md">
         <main>
           <header className="header">
             <h1 className="ogsm-title">
-              {user ? `${user?.user.displayName}'s OGSM` : "You can do it!"}
+              {user ? `${user?.displayName}'s OGSM` : "You can do it!"}
             </h1>
             {user ? (
               <Button variant="text" onClick={handleLogout}>
