@@ -14,12 +14,14 @@ import { auth } from "../../../firebase.config"
 import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
 import useDeleteOgsm from "@/hooks/useDeleteOgsm"
+import useUpdateOgsm from "@/hooks/useUpdateOgsm"
 
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
+  const { mutate: mutateUpdateOgsm } = useUpdateOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] =
     useState<OGSM_TYPE | undefined>(undefined)
@@ -37,10 +39,7 @@ const Main = () => {
 
   const onDelete = (id: number) => {
     mutateDeleteOgsm(
-      {
-        id,
-        ogsmList,
-      },
+      { id, ogsmList },
       {
         onSuccess: () => {
           refetch()
@@ -51,30 +50,31 @@ const Main = () => {
   }
 
   const onSave = (newOgsm: OGSM_TYPE) => {
-    // const existingOgsmIndex = ogsmList.findIndex(
-    //   (ogsm) => ogsm.id === newOgsm.id
-    // )
-    // let newOgsmList: OGSM_TYPE[]
-
-    // if (existingOgsmIndex !== -1) {
-    //   newOgsmList = [...ogsmList]
-    //   newOgsmList[existingOgsmIndex] = {
-    //     ...ogsmList[existingOgsmIndex],
-    //     ...newOgsm,
-    //   }
-    // } else {
-    //   newOgsmList = [...ogsmList, newOgsm]
-    // }
-
-    mutateSaveOgsm(
-      { newOgsm },
-      {
-        onSuccess: () => {
-          refetch()
-        },
-        onError: () => console.log("error"),
-      }
+    const existingOgsmIndex = ogsmList.findIndex(
+      (ogsm) => ogsm.id === newOgsm.id
     )
+
+    if (existingOgsmIndex !== -1) {
+      mutateUpdateOgsm(
+        { ogsmList, newOgsm },
+        {
+          onSuccess: () => {
+            refetch()
+          },
+          onError: () => console.log("error"),
+        }
+      )
+    } else {
+      mutateSaveOgsm(
+        { newOgsm },
+        {
+          onSuccess: () => {
+            refetch()
+          },
+          onError: () => console.log("error"),
+        }
+      )
+    }
   }
 
   const handleLogin = () => {
