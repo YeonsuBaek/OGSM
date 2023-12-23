@@ -19,9 +19,8 @@ const Main = () => {
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
-    undefined
-  )
+  const [selectedItem, setSelectedItem] =
+    useState<OGSM_TYPE | undefined>(undefined)
   const { mutate: mutateLogin } = useLogin()
   const { mutate: mutateLogout } = useLogout()
   const authService = getAuth()
@@ -57,7 +56,9 @@ const Main = () => {
     mutateSaveOgsm(
       { newOgsm },
       {
-        onSuccess: () => console.log("success"),
+        onSuccess: () => {
+          refetch()
+        },
         onError: () => console.log("error"),
       }
     )

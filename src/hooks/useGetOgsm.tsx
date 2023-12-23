@@ -30,7 +30,7 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
           const list = response.data()["ogsm"].map((item: any) => {
             return {
               ...item,
-              id: `${id}-${item.goal}`,
+              id: item.id || `${id}-${item.goal}`,
             }
           })
           setData(list)
