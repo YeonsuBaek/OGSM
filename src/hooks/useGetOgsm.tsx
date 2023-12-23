@@ -1,23 +1,41 @@
 import { OGSM_TYPE } from "@/types"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { db } from "../../firebase.config"
+import { collection, doc, getDoc } from "firebase/firestore"
 
-const useFetchOgsm = () => {
+interface useFetchOgsmProps {
+  email?: string
+}
+
+const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
   const [data, setData] = useState<OGSM_TYPE[]>([])
   const [error, setError] = useState<unknown | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isRefetch, setIsRefetch] = useState<boolean>(false)
 
   useEffect(() => {
+    if (!email) {
+      setData([])
+      return
+    }
+
+    const id = email.replace("@", "")
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://my-json-server.typicode.com/yeonsuBaek/ogsm/ogsm",
-          { method: "GET" }
-        )
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
+        const collectionRef = collection(db, "ogsm")
+        const docRef = doc(collectionRef, id)
+        const response = await getDoc(docRef)
+        if (response.exists()) {
+          const list = response.data()["ogsm"].map((item: any) => {
+            return {
+              ...item,
+              id: `${id}-${item.goal}`,
+            }
+          })
+          setData(list)
+        } else {
+          setData([])
         }
-        const result = await response.json()
-        setData(result)
       } catch (error) {
         setError(error)
       } finally {
@@ -25,10 +43,17 @@ const useFetchOgsm = () => {
       }
     }
 
-    fetchData()
-  }, [])
+    if (id || isRefetch) {
+      fetchData()
+      setIsRefetch(false)
+    }
+  }, [email, isRefetch])
 
-  return { data, isLoading, error }
+  const onRefetch = () => {
+    setIsRefetch(true)
+  }
+
+  return { data, isLoading, error, refetch: onRefetch }
 }
 
 export default useFetchOgsm

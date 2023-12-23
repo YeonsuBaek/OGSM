@@ -16,11 +16,12 @@ import { getAuth } from "firebase/auth"
 
 const Main = () => {
   const { user, login } = useAuth()
-  const { data: ogsmList } = useGetOgsm()
+  const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] =
-    useState<OGSM_TYPE | undefined>(undefined)
+  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
+    undefined
+  )
   const { mutate: mutateLogin } = useLogin()
   const { mutate: mutateLogout } = useLogout()
   const authService = getAuth()
@@ -79,6 +80,7 @@ const Main = () => {
     mutateLogout(auth, {
       onSuccess: () => {
         login(null)
+        refetch()
       },
       onError: () => {
         console.log("Not Found")
@@ -87,6 +89,7 @@ const Main = () => {
   }
 
   useEffect(() => {
+    refetch()
     authService.onAuthStateChanged((user) => {
       if (user) {
         login(user)
