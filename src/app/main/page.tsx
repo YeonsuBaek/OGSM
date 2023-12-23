@@ -13,11 +13,13 @@ import { GoogleAuthProvider } from "firebase/auth"
 import { auth } from "../../../firebase.config"
 import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
+import useDeleteOgsm from "@/hooks/useDeleteOgsm"
 
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
+  const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] =
     useState<OGSM_TYPE | undefined>(undefined)
@@ -34,7 +36,18 @@ const Main = () => {
   }
 
   const onDelete = (id: number) => {
-    const newOgsmList = ogsmList.filter((ogsm) => ogsm.id !== id)
+    mutateDeleteOgsm(
+      {
+        id,
+        ogsmList,
+      },
+      {
+        onSuccess: () => {
+          refetch()
+        },
+        onError: () => console.log("error"),
+      }
+    )
   }
 
   const onSave = (newOgsm: OGSM_TYPE) => {
