@@ -69,6 +69,7 @@ const Main = () => {
     mutateLogin(provider, {
       onSuccess: (res) => {
         login(res.user)
+        refetch()
       },
       onError: () => {
         console.log("Not Found")

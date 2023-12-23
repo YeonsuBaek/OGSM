@@ -1,7 +1,7 @@
 import { OGSM_TYPE } from "@/types"
 import { useEffect, useMemo, useState } from "react"
 import { db } from "../../firebase.config"
-import { collection, doc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc, setDoc } from "firebase/firestore"
 
 interface useFetchOgsmProps {
   email?: string
@@ -25,6 +25,7 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
         const collectionRef = collection(db, "ogsm")
         const docRef = doc(collectionRef, id)
         const response = await getDoc(docRef)
+
         if (response.exists()) {
           const list = response.data()["ogsm"].map((item: any) => {
             return {
@@ -34,6 +35,7 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
           })
           setData(list)
         } else {
+          await setDoc(docRef, { ogsm: [] })
           setData([])
         }
       } catch (error) {
