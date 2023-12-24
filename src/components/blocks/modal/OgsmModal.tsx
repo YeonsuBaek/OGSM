@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react"
+import React, { useState, useEffect, ChangeEvent, useMemo } from "react"
 import {
   Button,
   FormControl,
@@ -50,6 +50,7 @@ const OgsmModal = ({
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
   const [clearedDate, setClearedDate] = useState<boolean>(false)
+  const [formInvalids, setFormInvalids] = useState<FORM_TYPE[]>([])
 
   const handleChangeInput = (
     type: FORM_TYPE,
@@ -105,6 +106,26 @@ const OgsmModal = ({
     setSelectedItem(undefined)
   }
 
+  const disabledSaveButton = useMemo(() => {
+    if (!ogsm) {
+      return !(category && object && goal && strategy && measure)
+    }
+
+    return (
+      ogsm.category === category &&
+      ogsm.object === object &&
+      ogsm.goal === goal &&
+      ogsm.strategy === strategy &&
+      ogsm.measure === measure &&
+      (ogsm?.startDate
+        ? ogsm.startDate === moment(startDate).format("YYYY-MM-DD")
+        : true) &&
+      (ogsm?.endDate
+        ? ogsm.endDate === moment(endDate).format("YYYY-MM-DD")
+        : true)
+    )
+  }, [ogsm, category, object, goal, strategy, measure, startDate, endDate])
+
   useEffect(() => {
     if (ogsm) {
       const { category, object, goal, strategy, measure, startDate, endDate } =
@@ -141,6 +162,7 @@ const OgsmModal = ({
           <ul className="ogsm-modal-form-list">
             <li className="ogsm-modal-form">
               <FormLabel
+                required
                 htmlFor="select-category"
                 className="ogsm-modal-form-title"
               >
@@ -162,7 +184,11 @@ const OgsmModal = ({
               </FormControl>
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel htmlFor="add-object" className="ogsm-modal-form-title">
+              <FormLabel
+                required
+                htmlFor="add-object"
+                className="ogsm-modal-form-title"
+              >
                 Object
               </FormLabel>
               <TextField
@@ -181,7 +207,11 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel htmlFor="add-goal" className="ogsm-modal-form-title">
+              <FormLabel
+                required
+                htmlFor="add-goal"
+                className="ogsm-modal-form-title"
+              >
                 Goal
               </FormLabel>
               <TextField
@@ -243,6 +273,7 @@ const OgsmModal = ({
             </li>
             <li className="ogsm-modal-form">
               <FormLabel
+                required
                 htmlFor="add-strategy"
                 className="ogsm-modal-form-title"
               >
@@ -265,6 +296,7 @@ const OgsmModal = ({
             </li>
             <li className="ogsm-modal-form">
               <FormLabel
+                required
                 htmlFor="add-measure"
                 className="ogsm-modal-form-title"
               >
@@ -303,6 +335,7 @@ const OgsmModal = ({
               variant="contained"
               disableElevation
               onClick={() => handleClose("save")}
+              disabled={disabledSaveButton}
             >
               Save
             </Button>
