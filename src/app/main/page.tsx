@@ -162,6 +162,7 @@ const Main = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           ogsm={selectedItem}
+          ogsmList={ogsmList}
           onDelete={onDelete}
           onSave={onSave}
           setSelectedItem={setSelectedItem}
