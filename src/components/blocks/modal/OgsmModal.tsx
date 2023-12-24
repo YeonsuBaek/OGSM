@@ -140,14 +140,18 @@ const OgsmModal = ({
       measure: measure.trim(),
     })
 
-    onClose()
+    handleClose()
   }
 
-  const onClose = (type?: BUTTON_TYPE) => {
-    if (type === "delete" && ogsm) {
+  const handleDelete = () => {
+    if (ogsm) {
       onDelete(ogsm.id)
     }
 
+    handleClose()
+  }
+
+  const handleClose = () => {
     setIsOpen(false)
     setCategory("Category1")
     setObject("")
@@ -390,15 +394,11 @@ const OgsmModal = ({
           </ul>
           <footer className="ogsm-modal-footer">
             {ogsm && (
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleClose("delete")}
-              >
+              <Button variant="outlined" color="error" onClick={handleDelete}>
                 Delete
               </Button>
             )}
-            <Button variant="outlined" onClick={() => handleClose("cancel")}>
+            <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
             <Button
