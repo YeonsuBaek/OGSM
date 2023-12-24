@@ -89,8 +89,8 @@ const OgsmModal = ({
         category,
         object,
         goal,
-        startDate: moment(startDate).format("YYYY-MM-DD"),
-        endDate: moment(endDate).format("YYYY-MM-DD"),
+        startDate: startDate ? moment(startDate).format("YYYY-MM-DD") : null,
+        endDate: endDate ? moment(endDate).format("YYYY-MM-DD") : null,
         strategy,
         measure,
       })
@@ -128,15 +128,14 @@ const OgsmModal = ({
 
   useEffect(() => {
     if (ogsm) {
-      const { category, object, goal, strategy, measure, startDate, endDate } =
-        ogsm
+      const { category, object, goal, strategy, measure } = ogsm
       setCategory(category)
       setObject(object)
       setGoal(goal)
       setStrategy(strategy)
       setMeasure(measure)
-      setStartDate(startDate ? moment(startDate) : null)
-      setEndDate(endDate ? moment(endDate) : null)
+      setStartDate(ogsm?.startDate ? moment(ogsm.startDate) : null)
+      setEndDate(ogsm?.endDate ? moment(ogsm.endDate) : null)
     }
   }, [ogsm])
 

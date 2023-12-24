@@ -3,8 +3,8 @@ export type OGSM_TYPE = {
   category: string
   object: string
   goal: string
-  startDate?: string
-  endDate?: string
+  startDate?: string | null
+  endDate?: string | null
   strategy: string
   measure: string
 }
