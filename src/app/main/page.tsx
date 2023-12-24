@@ -18,7 +18,11 @@ import useUpdateOgsm from "@/hooks/useUpdateOgsm"
 
 const Main = () => {
   const { user, login } = useAuth()
-  const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
+  const {
+    data: ogsmList,
+    refetch,
+    isLoading,
+  } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
   const { mutate: mutateUpdateOgsm } = useUpdateOgsm()
@@ -111,6 +115,10 @@ const Main = () => {
       }
     })
   }, [])
+
+  if (isLoading) {
+    return <div />
+  }
 
   return (
     <>
