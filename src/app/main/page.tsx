@@ -15,6 +15,8 @@ import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
 import useDeleteOgsm from "@/hooks/useDeleteOgsm"
 import useUpdateOgsm from "@/hooks/useUpdateOgsm"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const Main = () => {
   const { user, login } = useAuth()
@@ -47,8 +49,11 @@ const Main = () => {
       {
         onSuccess: () => {
           refetch()
+          toast.error("Delete the data.")
         },
-        onError: () => console.log("error"),
+        onError: () => {
+          toast.error("Fail to delete the data.")
+        },
       }
     )
   }
@@ -64,8 +69,11 @@ const Main = () => {
         {
           onSuccess: () => {
             refetch()
+            toast.success("Saved the changed.")
           },
-          onError: () => console.log("error"),
+          onError: () => {
+            toast.error("Fail to save the changed.")
+          },
         }
       )
     } else {
@@ -74,8 +82,11 @@ const Main = () => {
         {
           onSuccess: () => {
             refetch()
+            toast.success("Saved the data.")
           },
-          onError: () => console.log("error"),
+          onError: () => {
+            toast.error("Fail to save the data.")
+          },
         }
       )
     }
@@ -90,7 +101,7 @@ const Main = () => {
         refetch()
       },
       onError: () => {
-        console.log("Not Found")
+        toast.error("Fail to log in")
       },
     })
   }
@@ -102,7 +113,7 @@ const Main = () => {
         refetch()
       },
       onError: () => {
-        console.log("Not Found")
+        toast.error("Fail to log out.")
       },
     })
   }
