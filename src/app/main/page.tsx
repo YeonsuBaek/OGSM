@@ -49,7 +49,7 @@ const Main = () => {
       {
         onSuccess: () => {
           refetch()
-          toast.error("Delete the data.")
+          toast.success("Delete the data.")
         },
         onError: () => {
           toast.error("Fail to delete the data.")

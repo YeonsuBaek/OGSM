@@ -1,7 +1,6 @@
 export type OGSM_TYPE = {
   id: number
-  category: string
-  object: string
+  objective: string
   goal: string
   startDate?: string | null
   endDate?: string | null

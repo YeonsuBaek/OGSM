@@ -26,7 +26,7 @@ const useUpdateOgsm = () => {
     setIsLoading(true)
 
     try {
-      const collectionRef = collection(db, "ogsm")
+      const collectionRef = collection(db, "user")
       const docRef = doc(collectionRef, userId)
       const updatedOgsm = ogsmList.map((ogsm) => {
         if (ogsm.id === newOgsm.id) {

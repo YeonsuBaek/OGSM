@@ -26,7 +26,7 @@ const useDeleteOgsm = () => {
     setIsLoading(true)
 
     try {
-      const collectionRef = collection(db, "ogsm")
+      const collectionRef = collection(db, "user")
       const docRef = doc(collectionRef, userId)
       const updatedOgsm = ogsmList.filter((ogsm) => ogsm.id !== ogsmId)
 

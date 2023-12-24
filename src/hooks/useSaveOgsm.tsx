@@ -25,7 +25,7 @@ const useSaveOgsm = () => {
     setIsLoading(true)
 
     try {
-      const collectionRef = collection(db, "ogsm")
+      const collectionRef = collection(db, "user")
       const docRef = doc(collectionRef, id)
       await updateDoc(docRef, {
         ogsm: arrayUnion(newOgsm),

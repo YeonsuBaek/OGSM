@@ -25,15 +25,12 @@ interface AddItemModalProps {
 }
 
 type FORM_TYPE =
-  | "category"
-  | "object"
+  | "objective"
   | "goal"
   | "strategy"
   | "measure"
   | "startDate"
   | "endDate"
-
-type BUTTON_TYPE = "delete" | "cancel" | "save"
 
 const OgsmModal = ({
   isOpen,
@@ -44,8 +41,7 @@ const OgsmModal = ({
   onSave,
   setSelectedItem,
 }: AddItemModalProps) => {
-  const [category, setCategory] = useState<string>("Category1")
-  const [object, setObject] = useState<string>(ogsm?.object || "")
+  const [objective, setObjective] = useState<string>(ogsm?.objective || "")
   const [goal, setGoal] = useState<string>(ogsm?.goal || "")
   const [strategy, setStrategy] = useState<string>(ogsm?.strategy || "")
   const [measure, setMeasure] = useState<string>(ogsm?.measure || "")
@@ -65,11 +61,8 @@ const OgsmModal = ({
 
     setAutoFocus(null)
     switch (type) {
-      case "category":
-        setCategory(value)
-        break
-      case "object":
-        setObject(value)
+      case "objective":
+        setObjective(value)
         break
       case "goal":
         setGoal(value)
@@ -91,12 +84,13 @@ const OgsmModal = ({
   }
 
   const isDuplicated = (value: string) => {
-    return ogsmList.findIndex((ogsm) => ogsm.object === value) !== -1
+    const dulicatedValue = ogsmList.filter((ogsm) => ogsm.objective === value)
+    return dulicatedValue.length > 1
   }
 
   const checkValids = () => {
     const isValidObject =
-      checkLength(object.trim().length) && !isDuplicated(object.trim())
+      checkLength(objective.trim().length) && !isDuplicated(objective.trim())
     const isValidGoal = checkLength(goal.trim().length)
     const isValidStrategy = checkLength(strategy.trim().length)
     const isValidMeasure = checkLength(measure.trim().length)
@@ -104,7 +98,7 @@ const OgsmModal = ({
     const invalids = []
 
     if (!isValidObject) {
-      invalids.push("object")
+      invalids.push("objective")
     }
     if (!isValidGoal) {
       invalids.push("goal")
@@ -131,8 +125,7 @@ const OgsmModal = ({
 
     onSave({
       id: ogsm?.id || Math.random() * 10,
-      category: category.trim(),
-      object: object.trim(),
+      objective: objective.trim(),
       goal: goal.trim(),
       startDate: startDate ? moment(startDate).format("YYYY-MM-DD") : null,
       endDate: endDate ? moment(endDate).format("YYYY-MM-DD") : null,
@@ -153,8 +146,7 @@ const OgsmModal = ({
 
   const handleClose = () => {
     setIsOpen(false)
-    setCategory("Category1")
-    setObject("")
+    setObjective("")
     setGoal("")
     setStrategy("")
     setMeasure("")
@@ -164,15 +156,14 @@ const OgsmModal = ({
   }
 
   const disabledSaveButton = useMemo(() => {
-    const hasRequiredValues = category && object && goal && strategy && measure
+    const hasRequiredValues = objective && goal && strategy && measure
     if (!ogsm) {
       return !hasRequiredValues
     }
 
     return (
       !hasRequiredValues ||
-      (ogsm.category === category &&
-        ogsm.object === object &&
+      (ogsm.objective === objective &&
         ogsm.goal === goal &&
         ogsm.strategy === strategy &&
         ogsm.measure === measure &&
@@ -183,13 +174,12 @@ const OgsmModal = ({
           ? ogsm.endDate === moment(endDate).format("YYYY-MM-DD")
           : true))
     )
-  }, [ogsm, category, object, goal, strategy, measure, startDate, endDate])
+  }, [ogsm, objective, goal, strategy, measure, startDate, endDate])
 
   useEffect(() => {
     if (ogsm) {
-      const { category, object, goal, strategy, measure } = ogsm
-      setCategory(category)
-      setObject(object)
+      const { objective, goal, strategy, measure } = ogsm
+      setObjective(objective)
       setGoal(goal)
       setStrategy(strategy)
       setMeasure(measure)
@@ -221,44 +211,21 @@ const OgsmModal = ({
             <li className="ogsm-modal-form">
               <FormLabel
                 required
-                htmlFor="select-category"
-                className="ogsm-modal-form-title"
-              >
-                Category
-              </FormLabel>
-              <FormControl fullWidth>
-                <Select
-                  id="select-category"
-                  value={category}
-                  onChange={(e: SelectChangeEvent) =>
-                    handleChangeInput("category", e)
-                  }
-                  size="small"
-                >
-                  <MenuItem value="Category1">Category1</MenuItem>
-                  <MenuItem value="Category2">Category2</MenuItem>
-                  <MenuItem value="Category3">Category3</MenuItem>
-                </Select>
-              </FormControl>
-            </li>
-            <li className="ogsm-modal-form">
-              <FormLabel
-                required
                 htmlFor="add-object"
                 className="ogsm-modal-form-title"
               >
-                Object
+                Objective
               </FormLabel>
               <TextField
-                error={formInvalids.includes("object")}
+                error={formInvalids.includes("objective")}
                 helperText={
-                  formInvalids.includes("object")
+                  formInvalids.includes("objective")
                     ? "Please ensure your input is unique and keep it between 1 and 256 characters."
                     : ""
                 }
-                autoFocus={Boolean(autoFocus === "object")}
+                autoFocus={Boolean(autoFocus === "objective")}
                 hiddenLabel
-                value={object}
+                value={objective}
                 id="add-object"
                 placeholder="Enter the object"
                 variant="outlined"
@@ -267,7 +234,7 @@ const OgsmModal = ({
                 multiline
                 rows={3}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleChangeInput("object", e)
+                  handleChangeInput("objective", e)
                 }
               />
             </li>

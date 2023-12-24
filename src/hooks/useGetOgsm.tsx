@@ -16,13 +16,14 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
   useEffect(() => {
     if (!email) {
       setData([])
+      setIsLoading(false)
       return
     }
 
     const id = email.replace("@", "")
     const fetchData = async () => {
       try {
-        const collectionRef = collection(db, "ogsm")
+        const collectionRef = collection(db, "user")
         const docRef = doc(collectionRef, id)
         const response = await getDoc(docRef)
 
