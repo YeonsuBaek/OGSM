@@ -25,6 +25,11 @@ body {
   margin-bottom: 16px;
 }
 
+.ogsm-no-data {
+  color: #999;
+  text-align: center;
+}
+
 .ogsm-item:is(:hover, :active) {
   background-color: rgb(241, 241, 241);
 }

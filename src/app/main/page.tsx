@@ -130,15 +130,23 @@ const Main = () => {
               </Button>
             )}
           </header>
-          <Button
-            onClick={() => setIsOpen(true)}
-            variant="contained"
-            startIcon={<Add />}
-            className="ogsm-add-button"
-          >
-            OGSM
-          </Button>
-          <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
+          {user && (
+            <Button
+              onClick={() => setIsOpen(true)}
+              variant="contained"
+              startIcon={<Add />}
+              className="ogsm-add-button"
+            >
+              OGSM
+            </Button>
+          )}
+          {user && ogsmList.length > 0 ? (
+            <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
+          ) : (
+            <p className="ogsm-no-data">
+              {user ? "No data available." : "Please use after logging in."}
+            </p>
+          )}
         </main>
       </Container>
       {isOpen && (
