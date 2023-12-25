@@ -9,55 +9,67 @@ interface OgsmItemProps {
 }
 
 const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
-  const calculateDaysDiff = (start: string, end?: string) => {
-    const today = moment().format("YYYY-MM-DD")
-    const targetDate = end || today
-
-    return moment(targetDate).diff(start, "days")
+  const calculateDaysDiff = (start: string, end: string) => {
+    return moment(end).diff(start, "days")
   }
 
-  const deadline = useMemo(() => {
-    if (ogsm?.endDate) {
-      return calculateDaysDiff(moment().format("YYYY-MM-DD"), ogsm.endDate)
-    }
-  }, [ogsm?.endDate])
-
-  const runningDay = useMemo(
-    () =>
-      calculateDaysDiff(
-        ogsm.startDate || moment().format("YYYY-MM-DD"),
-        moment().format("YYYY-MM-DD")
-      ) + 1,
-    [ogsm.startDate]
-  )
-
-  const formatDaysLabel = (days: number, label: string) => {
-    if (days && deadline) {
-      return days >= 0 ? `D-${deadline}` : `D+${deadline * -1}`
-    }
-    return label
+  const getSuffix = (day: number) => {
+    if (day <= 0) return NUMBER_SUFFIX.NULL
+    if (day === 1) return NUMBER_SUFFIX.FIRST
+    if (day === 2) return NUMBER_SUFFIX.SECOND
+    if (day === 3) return NUMBER_SUFFIX.THIRD
+    return NUMBER_SUFFIX.OTHER
   }
 
-  const dDay = useMemo(() => {
-    if (deadline) {
-      return formatDaysLabel(deadline, "Working towards my goal... 🌟")
+  const getRDay = (start: string) => {
+    const runningDay =
+      calculateDaysDiff(start, moment().format("YYYY-MM-DD")) + 1
+    let suffix, rDay
+    if (runningDay > 0) {
+      suffix = getSuffix(runningDay)
+      rDay = `${runningDay}${suffix} day`
+    } else {
+      rDay = "Not started yet"
     }
-  }, [deadline])
 
-  const rDay = useMemo(() => {
-    if (runningDay && deadline && deadline >= 0) {
-      const suffix = (day: number) => {
-        if (day <= 0) return NUMBER_SUFFIX.NULL
-        if (day === 1) return NUMBER_SUFFIX.FIRST
-        if (day === 2) return NUMBER_SUFFIX.SECOND
-        if (day === 3) return NUMBER_SUFFIX.THIRD
-        return NUMBER_SUFFIX.OTHER
-      }
+    return rDay
+  }
 
-      return `(${runningDay}${suffix(runningDay)} day)`
+  const getDDay = (end: string) => {
+    const deadline = calculateDaysDiff(moment().format("YYYY-MM-DD"), end)
+    const label = deadline >= 0 ? `D-` : `D+`
+
+    return `${label}${Math.abs(deadline)}`
+  }
+
+  const getDateMessage = () => {
+    if (ogsm?.isDone) {
+      return "Goal Achieved! 🚀"
     }
+
+    if (!ogsm?.startDate && !ogsm?.endDate) {
+      return "Working towards my goal... 🌟"
+    }
+
+    if (ogsm?.startDate && ogsm?.endDate) {
+      const rDay = getRDay(ogsm.startDate)
+      const dDay = getDDay(ogsm.endDate)
+
+      return `${dDay} (${rDay})`
+    }
+
+    if (ogsm?.startDate && !ogsm?.endDate) {
+      const rDay = getRDay(ogsm.startDate)
+      return rDay
+    }
+
+    if (!ogsm?.startDate && ogsm?.endDate) {
+      const dDay = getDDay(ogsm.endDate)
+      return `${dDay}`
+    }
+
     return ""
-  }, [runningDay, deadline])
+  }
 
   return (
     <>
@@ -66,7 +78,7 @@ const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
         role="button"
         onClick={() => onOpenModal(ogsm.id)}
       >
-        <ListItemText primary={ogsm.goal} secondary={`${dDay} ${rDay}`} />
+        <ListItemText primary={ogsm.goal} secondary={getDateMessage()} />
       </ListItem>
       <Divider component="li" />
     </>
