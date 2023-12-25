@@ -84,7 +84,7 @@ const OgsmModal = ({
 
   const isDuplicated = (value: string) => {
     const dulicatedValue = ogsmList.filter((ogsm) => ogsm.objective === value)
-    return dulicatedValue.length > 1
+    return ogsm ? dulicatedValue.length > 1 : dulicatedValue.length >= 1
   }
 
   const checkValids = () => {
@@ -170,10 +170,10 @@ const OgsmModal = ({
         ogsm.measure === measure &&
         (ogsm?.startDate
           ? ogsm.startDate === moment(startDate).format("YYYY-MM-DD")
-          : true) &&
+          : false) &&
         (ogsm?.endDate
           ? ogsm.endDate === moment(endDate).format("YYYY-MM-DD")
-          : true) &&
+          : false) &&
         ogsm.isDone === isDone)
     )
   }, [ogsm, objective, goal, strategy, measure, startDate, endDate, isDone])
