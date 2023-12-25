@@ -1,13 +1,11 @@
 import React, { useState, useEffect, ChangeEvent, useMemo } from "react"
 import {
   Button,
-  FormControl,
   FormLabel,
-  MenuItem,
   Modal,
   Paper,
-  Select,
   SelectChangeEvent,
+  Switch,
   TextField,
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers"
@@ -47,6 +45,7 @@ const OgsmModal = ({
   const [measure, setMeasure] = useState<string>(ogsm?.measure || "")
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
+  const [isDone, setIsDone] = useState<boolean>(ogsm?.isDone || false)
   const [clearedDate, setClearedDate] = useState<boolean>(false)
   const [formInvalids, setFormInvalids] = useState<FORM_TYPE[]>([])
   const [autoFocus, setAutoFocus] = useState<FORM_TYPE | null>(null)
@@ -127,10 +126,11 @@ const OgsmModal = ({
       id: ogsm?.id || Math.random() * 10,
       objective: objective.trim(),
       goal: goal.trim(),
-      startDate: startDate ? moment(startDate).format("YYYY-MM-DD") : null,
-      endDate: endDate ? moment(endDate).format("YYYY-MM-DD") : null,
       strategy: strategy.trim(),
       measure: measure.trim(),
+      startDate: startDate ? moment(startDate).format("YYYY-MM-DD") : null,
+      endDate: endDate ? moment(endDate).format("YYYY-MM-DD") : null,
+      isDone,
     })
 
     handleClose()
@@ -152,6 +152,7 @@ const OgsmModal = ({
     setMeasure("")
     setStartDate(null)
     setEndDate(null)
+    setIsDone(false)
     setSelectedItem(undefined)
   }
 
@@ -172,9 +173,10 @@ const OgsmModal = ({
           : true) &&
         (ogsm?.endDate
           ? ogsm.endDate === moment(endDate).format("YYYY-MM-DD")
-          : true))
+          : true) &&
+        ogsm.isDone === isDone)
     )
-  }, [ogsm, objective, goal, strategy, measure, startDate, endDate])
+  }, [ogsm, objective, goal, strategy, measure, startDate, endDate, isDone])
 
   useEffect(() => {
     if (ogsm) {
@@ -185,6 +187,7 @@ const OgsmModal = ({
       setMeasure(measure)
       setStartDate(ogsm?.startDate ? moment(ogsm.startDate) : null)
       setEndDate(ogsm?.endDate ? moment(ogsm.endDate) : null)
+      setIsDone(ogsm?.isDone ? ogsm.isDone : false)
     }
   }, [ogsm])
 
@@ -266,48 +269,6 @@ const OgsmModal = ({
             </li>
             <li className="ogsm-modal-form">
               <FormLabel
-                htmlFor="add-startdate"
-                className="ogsm-modal-form-title"
-              >
-                Start Date
-              </FormLabel>
-              <DesktopDatePicker
-                value={startDate}
-                onChange={(newDate) =>
-                  newDate ? setStartDate(newDate) : setStartDate(null)
-                }
-                format="YYYY/MM/DD"
-                slotProps={{
-                  field: {
-                    clearable: true,
-                    onClear: () => setClearedDate(true),
-                  },
-                }}
-              />
-            </li>
-            <li className="ogsm-modal-form">
-              <FormLabel
-                htmlFor="add-enddate"
-                className="ogsm-modal-form-title"
-              >
-                End Date
-              </FormLabel>
-              <DesktopDatePicker
-                value={endDate}
-                onChange={(newDate) =>
-                  newDate ? setEndDate(newDate) : setEndDate(null)
-                }
-                format="YYYY/MM/DD"
-                slotProps={{
-                  field: {
-                    clearable: true,
-                    onClear: () => setClearedDate(true),
-                  },
-                }}
-              />
-            </li>
-            <li className="ogsm-modal-form">
-              <FormLabel
                 required
                 htmlFor="add-strategy"
                 className="ogsm-modal-form-title"
@@ -358,6 +319,61 @@ const OgsmModal = ({
                 }
               />
             </li>
+            <li className="ogsm-modal-form">
+              <FormLabel
+                htmlFor="add-startdate"
+                className="ogsm-modal-form-title"
+              >
+                Start Date
+              </FormLabel>
+              <DesktopDatePicker
+                value={startDate}
+                onChange={(newDate) =>
+                  newDate ? setStartDate(newDate) : setStartDate(null)
+                }
+                format="YYYY/MM/DD"
+                slotProps={{
+                  field: {
+                    clearable: true,
+                    onClear: () => setClearedDate(true),
+                  },
+                }}
+              />
+            </li>
+            <li className="ogsm-modal-form">
+              <FormLabel
+                htmlFor="add-enddate"
+                className="ogsm-modal-form-title"
+              >
+                End Date
+              </FormLabel>
+              <DesktopDatePicker
+                value={endDate}
+                onChange={(newDate) =>
+                  newDate ? setEndDate(newDate) : setEndDate(null)
+                }
+                format="YYYY/MM/DD"
+                slotProps={{
+                  field: {
+                    clearable: true,
+                    onClear: () => setClearedDate(true),
+                  },
+                }}
+              />
+            </li>
+            {ogsm && (
+              <li className="ogsm-modal-form">
+                <FormLabel htmlFor="add-done" className="ogsm-modal-form-title">
+                  Done
+                </FormLabel>
+                <Switch
+                  checked={isDone}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setIsDone(e.target.checked)
+                  }
+                />
+              </li>
+            )}
           </ul>
           <footer className="ogsm-modal-footer">
             {ogsm && (

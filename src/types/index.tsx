@@ -2,10 +2,11 @@ export type OGSM_TYPE = {
   id: number
   objective: string
   goal: string
-  startDate?: string | null
-  endDate?: string | null
   strategy: string
   measure: string
+  startDate?: string | null
+  endDate?: string | null
+  isDone?: boolean
 }
 
 export enum NUMBER_SUFFIX {
