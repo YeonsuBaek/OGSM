@@ -6,9 +6,10 @@ import { OGSM_TYPE } from "@/types"
 interface OgsmListProps {
   onOpenModal: (id?: number) => void
   ogsmList: OGSM_TYPE[]
+  onSave: (ogsm: OGSM_TYPE) => void
 }
 
-const OgsmList = ({ onOpenModal, ogsmList }: OgsmListProps) => {
+const OgsmList = ({ onOpenModal, ogsmList, onSave }: OgsmListProps) => {
   return (
     <List
       sx={{
@@ -17,7 +18,14 @@ const OgsmList = ({ onOpenModal, ogsmList }: OgsmListProps) => {
       }}
     >
       {ogsmList.map((ogsm: OGSM_TYPE) => {
-        return <OgsmItem ogsm={ogsm} onOpenModal={onOpenModal} key={ogsm.id} />
+        return (
+          <OgsmItem
+            ogsm={ogsm}
+            onOpenModal={onOpenModal}
+            onSave={onSave}
+            key={ogsm.id}
+          />
+        )
       })}
     </List>
   )

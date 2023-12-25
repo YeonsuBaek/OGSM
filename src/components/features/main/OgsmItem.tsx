@@ -1,14 +1,21 @@
-import React, { useMemo } from "react"
-import { Divider, ListItem, ListItemText } from "@mui/material"
+import React, { ChangeEvent } from "react"
+import {
+  Divider,
+  FormControlLabel,
+  ListItem,
+  ListItemText,
+  Switch,
+} from "@mui/material"
 import { OGSM_TYPE, NUMBER_SUFFIX } from "@/types"
 import moment from "moment"
 
 interface OgsmItemProps {
   ogsm: OGSM_TYPE
   onOpenModal: (id?: number) => void
+  onSave: (ogsm: OGSM_TYPE) => void
 }
 
-const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
+const OgsmItem = ({ ogsm, onOpenModal, onSave }: OgsmItemProps) => {
   const calculateDaysDiff = (start: string, end: string) => {
     return moment(end).diff(start, "days")
   }
@@ -71,14 +78,40 @@ const OgsmItem = ({ ogsm, onOpenModal }: OgsmItemProps) => {
     return ""
   }
 
+  const handleChangeDone = (
+    e: ChangeEvent<HTMLInputElement>,
+    ogsm: OGSM_TYPE
+  ) => {
+    const { checked } = e.target
+    onSave({
+      ...ogsm,
+      isDone: checked,
+    })
+  }
+
   return (
     <>
       <ListItem
         className="ogsm-item"
         role="button"
-        onClick={() => onOpenModal(ogsm.id)}
+        secondaryAction={
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ogsm?.isDone || false}
+                onChange={(e) => handleChangeDone(e, ogsm)}
+              />
+            }
+            label={ogsm?.isDone ? "Done" : "In progress"}
+            labelPlacement="start"
+          />
+        }
       >
-        <ListItemText primary={ogsm.goal} secondary={getDateMessage()} />
+        <ListItemText
+          primary={ogsm.goal}
+          secondary={getDateMessage()}
+          onClick={() => onOpenModal(ogsm.id)}
+        />
       </ListItem>
       <Divider component="li" />
     </>

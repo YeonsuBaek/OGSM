@@ -29,8 +29,9 @@ const Main = () => {
   const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
   const { mutate: mutateUpdateOgsm } = useUpdateOgsm()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] =
-    useState<OGSM_TYPE | undefined>(undefined)
+  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
+    undefined
+  )
   const { mutate: mutateLogin } = useLogin()
   const { mutate: mutateLogout } = useLogout()
   const authService = getAuth()
@@ -160,7 +161,11 @@ const Main = () => {
             </Button>
           )}
           {user && ogsmList.length > 0 ? (
-            <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} />
+            <OgsmList
+              ogsmList={ogsmList}
+              onOpenModal={handleOpenModal}
+              onSave={onSave}
+            />
           ) : (
             <p className="ogsm-no-data">
               {user ? "No data available." : "Please use after logging in."}
