@@ -7,15 +7,12 @@ import OgsmModal from "@/components/blocks/modal/OgsmModal"
 import { OGSM_TYPE } from "@/types"
 import useGetOgsm from "@/hooks/useGetOgsm"
 import useSaveOgsm from "@/hooks/useSaveOgsm"
-import useLogin from "@/hooks/useLogin"
-import useLogout from "@/hooks/useLogout"
-import { GoogleAuthProvider } from "firebase/auth"
-import { auth } from "../../../firebase.config"
 import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import useMutation from "@/hooks/useMutation"
+import Header from "@/components/features/main/Header"
 
 const Main = () => {
   const { user, login } = useAuth()
@@ -28,8 +25,6 @@ const Main = () => {
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
     undefined
   )
-  const { mutate: mutateLogin } = useLogin()
-  const { mutate: mutateLogout } = useLogout()
   const authService = getAuth()
 
   const handleOpenModal = (id?: number) => {
@@ -89,32 +84,6 @@ const Main = () => {
     }
   }
 
-  const handleLogin = () => {
-    const provider = new GoogleAuthProvider()
-
-    mutateLogin(provider, {
-      onSuccess: (res) => {
-        login(res.user)
-        refetch()
-      },
-      onError: () => {
-        toast.error("Fail to log in.")
-      },
-    })
-  }
-
-  const handleLogout = () => {
-    mutateLogout(auth, {
-      onSuccess: () => {
-        login(null)
-        refetch()
-      },
-      onError: () => {
-        toast.error("Fail to log out.")
-      },
-    })
-  }
-
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
@@ -132,20 +101,7 @@ const Main = () => {
     <>
       <Container maxWidth="md">
         <main>
-          <header className="header">
-            <h1 className="ogsm-title">
-              {user ? `${user?.displayName}'s OGSM` : "You can do it!"}
-            </h1>
-            {user ? (
-              <Button variant="text" onClick={handleLogout}>
-                로그아웃
-              </Button>
-            ) : (
-              <Button variant="text" onClick={handleLogin}>
-                로그인
-              </Button>
-            )}
-          </header>
+          <Header refetch={() => refetch()} />
           {user && (
             <Button
               onClick={() => setIsOpen(true)}
