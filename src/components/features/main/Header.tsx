@@ -22,7 +22,7 @@ const Header = ({ refetch }: HeaderProps) => {
     mutateLogin(provider, {
       onSuccess: (res) => {
         login(res.user)
-        refetch
+        refetch()
       },
       onError: () => {
         toast.error("Fail to log in.")
@@ -34,7 +34,7 @@ const Header = ({ refetch }: HeaderProps) => {
     mutateLogout(auth, {
       onSuccess: () => {
         login(null)
-        refetch
+        refetch()
       },
       onError: () => {
         toast.error("Fail to log out.")

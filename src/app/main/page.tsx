@@ -1,88 +1,18 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import { Add } from "@mui/icons-material"
-import { Button, Container } from "@mui/material"
-import OgsmList from "@/components/features/main/OgsmList"
-import OgsmModal from "@/components/blocks/modal/OgsmModal"
-import { OGSM_TYPE } from "@/types"
+import { Container } from "@mui/material"
 import useGetOgsm from "@/hooks/useGetOgsm"
-import useSaveOgsm from "@/hooks/useSaveOgsm"
 import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
-import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import useMutation from "@/hooks/useMutation"
 import Header from "@/components/features/main/Header"
+import Content from "@/components/features/main/Content"
 
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
-  const { mutate: mutateSaveOgsm } = useSaveOgsm()
-  const { mutate: mutateDeleteOgsm } = useMutation({ method: "DELETE" })
-  const { mutate: mutateUpdateOgsm } = useMutation({ method: "POST" })
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
-    undefined
-  )
   const authService = getAuth()
-
-  const handleOpenModal = (id?: number) => {
-    if (id) {
-      const item = ogsmList.find((ogsm) => ogsm.id === id)
-      setSelectedItem(item)
-    }
-    setIsOpen(true)
-  }
-
-  const onDelete = (id: number) => {
-    mutateDeleteOgsm(
-      { id, ogsmList },
-      {
-        onSuccess: () => {
-          refetch()
-          toast.success("Deleted the data.")
-        },
-        onError: () => {
-          toast.error("Fail to delete the data.")
-        },
-      }
-    )
-  }
-
-  const onSave = (newOgsm: OGSM_TYPE) => {
-    const existingOgsmIndex = ogsmList.findIndex(
-      (ogsm) => ogsm.id === newOgsm.id
-    )
-
-    if (existingOgsmIndex !== -1) {
-      mutateUpdateOgsm(
-        { ogsmList, newOgsm },
-        {
-          onSuccess: () => {
-            refetch()
-            toast.success("Saved the changes.")
-          },
-          onError: () => {
-            toast.error("Fail to save the changes.")
-          },
-        }
-      )
-    } else {
-      mutateSaveOgsm(
-        { newOgsm },
-        {
-          onSuccess: () => {
-            refetch()
-            toast.success("Added the data.")
-          },
-          onError: () => {
-            toast.error("Fail to add the data.")
-          },
-        }
-      )
-    }
-  }
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -98,45 +28,12 @@ const Main = () => {
   }
 
   return (
-    <>
-      <Container maxWidth="md">
-        <main>
-          <Header refetch={() => refetch()} />
-          {user && (
-            <Button
-              onClick={() => setIsOpen(true)}
-              variant="contained"
-              startIcon={<Add />}
-              className="ogsm-add-button"
-            >
-              OGSM
-            </Button>
-          )}
-          {user && ogsmList.length > 0 ? (
-            <OgsmList
-              ogsmList={ogsmList}
-              onOpenModal={handleOpenModal}
-              onSave={onSave}
-            />
-          ) : (
-            <p className="ogsm-no-data">
-              {user ? "No data available." : "Please use after logging in."}
-            </p>
-          )}
-        </main>
-      </Container>
-      {isOpen && (
-        <OgsmModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          ogsm={selectedItem}
-          ogsmList={ogsmList}
-          onDelete={onDelete}
-          onSave={onSave}
-          setSelectedItem={setSelectedItem}
-        />
-      )}
-    </>
+    <Container maxWidth="md">
+      <main>
+        <Header refetch={() => refetch()} />
+        <Content ogsmList={ogsmList} refetch={() => refetch()} />
+      </main>
+    </Container>
   )
 }
 
