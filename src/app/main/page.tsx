@@ -17,9 +17,9 @@ const Main = () => {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setIsLoadingUser(false)
         login(user)
       }
+      setIsLoadingUser(false)
     })
   }, [])
 
