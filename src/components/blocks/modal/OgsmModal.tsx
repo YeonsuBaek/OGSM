@@ -11,6 +11,7 @@ import {
 import { DesktopDatePicker } from "@mui/x-date-pickers"
 import { OGSM_TYPE } from "@/types"
 import moment, { Moment } from "moment"
+import TextFieldForm from "../form/TextFieldForm"
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -22,7 +23,7 @@ interface AddItemModalProps {
   setSelectedItem: (id: undefined) => void
 }
 
-type FORM_TYPE =
+export type FORM_TYPE =
   | "objective"
   | "goal"
   | "strategy"
@@ -212,108 +213,60 @@ const OgsmModal = ({
         <div className="ogsm-modal-content">
           <ul className="ogsm-modal-form-list">
             <li className="ogsm-modal-form">
-              <FormLabel
-                required
-                htmlFor="add-object"
-                className="ogsm-modal-form-title"
-              >
-                Objective
-              </FormLabel>
-              <TextField
-                error={formInvalids.includes("objective")}
-                helperText={
-                  formInvalids.includes("objective")
-                    ? "Please ensure your input is unique and keep it between 1 and 256 characters."
-                    : ""
-                }
-                autoFocus={Boolean(autoFocus === "objective")}
-                hiddenLabel
-                value={objective}
+              <TextFieldForm
                 id="add-object"
+                label="Objective"
+                required={true}
+                invalid={formInvalids.includes("objective")}
+                errorText="Please ensure your input is unique and keep it between 1 and 256 characters."
+                autoFocus={Boolean(autoFocus === "objective")}
+                value={objective}
                 placeholder="Enter the object"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleChangeInput("objective", e)
                 }
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel
-                required
-                htmlFor="add-goal"
-                className="ogsm-modal-form-title"
-              >
-                Goal
-              </FormLabel>
-              <TextField
-                error={formInvalids.includes("goal")}
-                helperText={formInvalids.includes("goal") ? ERROR_MSG : ""}
-                autoFocus={Boolean(autoFocus === "goal")}
-                hiddenLabel
-                value={goal}
+              <TextFieldForm
                 id="add-goal"
+                label="Goal"
+                required={true}
+                invalid={formInvalids.includes("goal")}
+                errorText={ERROR_MSG}
+                autoFocus={Boolean(autoFocus === "goal")}
+                value={goal}
                 placeholder="Enter the goal"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleChangeInput("goal", e)
                 }
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel
-                required
-                htmlFor="add-strategy"
-                className="ogsm-modal-form-title"
-              >
-                Strategy
-              </FormLabel>
-              <TextField
-                error={formInvalids.includes("strategy")}
-                helperText={formInvalids.includes("strategy") ? ERROR_MSG : ""}
-                autoFocus={Boolean(autoFocus === "strategy")}
-                hiddenLabel
-                value={strategy}
+              <TextFieldForm
                 id="add-strategy"
+                label="Strategy"
+                required={true}
+                invalid={formInvalids.includes("strategy")}
+                errorText={ERROR_MSG}
+                autoFocus={Boolean(autoFocus === "strategy")}
+                value={strategy}
                 placeholder="Enter the strategy"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleChangeInput("strategy", e)
                 }
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel
-                required
-                htmlFor="add-measure"
-                className="ogsm-modal-form-title"
-              >
-                Measure
-              </FormLabel>
-              <TextField
-                error={formInvalids.includes("measure")}
-                helperText={formInvalids.includes("measure") ? ERROR_MSG : ""}
-                autoFocus={Boolean(autoFocus === "measure")}
-                hiddenLabel
-                value={measure}
+              <TextFieldForm
                 id="add-measure"
+                label="Measure"
+                required={true}
+                invalid={formInvalids.includes("measure")}
+                errorText={ERROR_MSG}
+                autoFocus={Boolean(autoFocus === "measure")}
+                value={measure}
                 placeholder="Enter the measure"
-                variant="outlined"
-                size="small"
-                fullWidth
-                multiline
-                rows={3}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   handleChangeInput("measure", e)
                 }
