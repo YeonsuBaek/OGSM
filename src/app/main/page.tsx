@@ -20,14 +20,11 @@ import "react-toastify/dist/ReactToastify.css"
 
 const Main = () => {
   const { user, login } = useAuth()
-  const {
-    data: ogsmList,
-    refetch,
-    isLoading,
-  } = useGetOgsm({ email: user?.email })
+  const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
   const { mutate: mutateUpdateOgsm } = useUpdateOgsm()
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
     undefined
@@ -120,15 +117,15 @@ const Main = () => {
   }
 
   useEffect(() => {
-    refetch()
     authService.onAuthStateChanged((user) => {
       if (user) {
+        setIsLoadingUser(false)
         login(user)
       }
     })
   }, [])
 
-  if (isLoading) {
+  if (isLoadingUser) {
     return <div />
   }
 
