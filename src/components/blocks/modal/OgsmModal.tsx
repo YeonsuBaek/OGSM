@@ -164,18 +164,19 @@ const OgsmModal = ({
       return !hasRequiredValues
     }
 
+    const targetStartDate =
+      startDate === null ? null : moment(startDate).format("YYYY-MM-DD")
+    const targetEndDate =
+      endDate === null ? null : moment(endDate).format("YYYY-MM-DD")
+
     return (
       !hasRequiredValues ||
       (ogsm.objective === objective &&
         ogsm.goal === goal &&
         ogsm.strategy === strategy &&
         ogsm.measure === measure &&
-        (ogsm?.startDate
-          ? ogsm.startDate === moment(startDate).format("YYYY-MM-DD")
-          : false) &&
-        (ogsm?.endDate
-          ? ogsm.endDate === moment(endDate).format("YYYY-MM-DD")
-          : false) &&
+        ogsm?.startDate === targetStartDate &&
+        ogsm?.endDate === targetEndDate &&
         ogsm.isDone === isDone)
     )
   }, [ogsm, objective, goal, strategy, measure, startDate, endDate, isDone])
