@@ -13,6 +13,7 @@ import { OGSM_TYPE } from "@/types"
 import moment, { Moment } from "moment"
 import TextFieldForm from "../form/TextFieldForm"
 import DatePickerForm from "../form/DatePickerForm"
+import SwitchForm from "../form/SwitchForm"
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -278,10 +279,8 @@ const OgsmModal = ({
             </li>
             {ogsm && (
               <li className="ogsm-modal-form">
-                <FormLabel htmlFor="add-done" className="ogsm-modal-form-title">
-                  Done
-                </FormLabel>
-                <Switch
+                <SwitchForm
+                  label="Done"
                   checked={isDone}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setIsDone(e.target.checked)
