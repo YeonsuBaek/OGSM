@@ -13,17 +13,16 @@ import { GoogleAuthProvider } from "firebase/auth"
 import { auth } from "../../../firebase.config"
 import useAuth from "@/hooks/useAuth"
 import { getAuth } from "firebase/auth"
-import useDeleteOgsm from "@/hooks/useDeleteOgsm"
-import useUpdateOgsm from "@/hooks/useUpdateOgsm"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import useMutation from "@/hooks/useMutation"
 
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
-  const { mutate: mutateDeleteOgsm } = useDeleteOgsm()
-  const { mutate: mutateUpdateOgsm } = useUpdateOgsm()
+  const { mutate: mutateDeleteOgsm } = useMutation({ method: "DELETE" })
+  const { mutate: mutateUpdateOgsm } = useMutation({ method: "POST" })
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
