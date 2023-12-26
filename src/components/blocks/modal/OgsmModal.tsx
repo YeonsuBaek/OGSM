@@ -156,6 +156,7 @@ const OgsmModal = ({
     setEndDate(null)
     setIsDone(false)
     setSelectedItem(undefined)
+    setFormInvalids([])
   }
 
   const disabledSaveButton = useMemo(() => {
