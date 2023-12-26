@@ -2,6 +2,7 @@ import React from "react"
 import { List } from "@mui/material"
 import OgsmItem from "./OgsmItem"
 import { OGSM_TYPE } from "@/types"
+import useAuth from "@/hooks/useAuth"
 
 interface OgsmListProps {
   onOpenModal: (id?: number) => void
@@ -10,7 +11,9 @@ interface OgsmListProps {
 }
 
 const OgsmList = ({ onOpenModal, ogsmList, onSave }: OgsmListProps) => {
-  return (
+  const { user } = useAuth()
+
+  return user && ogsmList.length > 0 ? (
     <List
       sx={{
         width: "100%",
@@ -28,6 +31,10 @@ const OgsmList = ({ onOpenModal, ogsmList, onSave }: OgsmListProps) => {
         )
       })}
     </List>
+  ) : (
+    <p className="ogsm-no-data">
+      {user ? "No data available." : "Please use after logging in."}
+    </p>
   )
 }
 

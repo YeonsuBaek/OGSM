@@ -1,6 +1,4 @@
 import useAuth from "@/hooks/useAuth"
-import { Add } from "@mui/icons-material"
-import { Button } from "@mui/material"
 import React, { useState } from "react"
 import OgsmList from "./OgsmList"
 import { OGSM_TYPE } from "@/types"
@@ -8,6 +6,7 @@ import OgsmModal from "@/components/blocks/modal/OgsmModal"
 import useSaveOgsm from "@/hooks/useSaveOgsm"
 import useMutation from "@/hooks/useMutation"
 import { toast } from "react-toastify"
+import OgsmAddButton from "@/components/blocks/button/OgsmAddButton"
 
 interface ContentProps {
   ogsmList: OGSM_TYPE[]
@@ -15,7 +14,6 @@ interface ContentProps {
 }
 
 const Content = ({ ogsmList, refetch }: ContentProps) => {
-  const { user } = useAuth()
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const { mutate: mutateDeleteOgsm } = useMutation({ method: "DELETE" })
   const { mutate: mutateUpdateOgsm } = useMutation({ method: "POST" })
@@ -83,39 +81,21 @@ const Content = ({ ogsmList, refetch }: ContentProps) => {
 
   return (
     <>
-      {user && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          variant="contained"
-          startIcon={<Add />}
-          className="ogsm-add-button"
-        >
-          OGSM
-        </Button>
-      )}
-      {user && ogsmList.length > 0 ? (
-        <OgsmList
-          ogsmList={ogsmList}
-          onOpenModal={handleOpenModal}
-          onSave={onSave}
-        />
-      ) : (
-        <p className="ogsm-no-data">
-          {user ? "No data available." : "Please use after logging in."}
-        </p>
-      )}
-
-      {isOpen && (
-        <OgsmModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          ogsm={selectedItem}
-          ogsmList={ogsmList}
-          onDelete={onDelete}
-          onSave={onSave}
-          setSelectedItem={setSelectedItem}
-        />
-      )}
+      <OgsmAddButton onClick={() => setIsOpen(true)} />
+      <OgsmList
+        ogsmList={ogsmList}
+        onOpenModal={handleOpenModal}
+        onSave={onSave}
+      />
+      <OgsmModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        ogsm={selectedItem}
+        ogsmList={ogsmList}
+        onDelete={onDelete}
+        onSave={onSave}
+        setSelectedItem={setSelectedItem}
+      />
     </>
   )
 }
