@@ -12,6 +12,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers"
 import { OGSM_TYPE } from "@/types"
 import moment, { Moment } from "moment"
 import TextFieldForm from "../form/TextFieldForm"
+import DatePickerForm from "../form/DatePickerForm"
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -47,7 +48,6 @@ const OgsmModal = ({
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
   const [isDone, setIsDone] = useState<boolean>(ogsm?.isDone || false)
-  const [clearedDate, setClearedDate] = useState<boolean>(false)
   const [formInvalids, setFormInvalids] = useState<FORM_TYPE[]>([])
   const [autoFocus, setAutoFocus] = useState<FORM_TYPE | null>(null)
   const ERROR_MSG = "Please keep your input between 1 and 256 characters."
@@ -192,16 +192,6 @@ const OgsmModal = ({
     }
   }, [ogsm])
 
-  useEffect(() => {
-    if (clearedDate) {
-      const timeout = setTimeout(() => {
-        setClearedDate(false)
-      }, 0)
-      return () => clearTimeout(timeout)
-    }
-    return () => {}
-  }, [clearedDate])
-
   return (
     <Modal
       open={isOpen}
@@ -273,45 +263,17 @@ const OgsmModal = ({
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel
-                htmlFor="add-startdate"
-                className="ogsm-modal-form-title"
-              >
-                Start Date
-              </FormLabel>
-              <DesktopDatePicker
+              <DatePickerForm
+                label="Start Date"
                 value={startDate}
-                onChange={(newDate) =>
-                  newDate ? setStartDate(newDate) : setStartDate(null)
-                }
-                format="YYYY/MM/DD"
-                slotProps={{
-                  field: {
-                    clearable: true,
-                    onClear: () => setClearedDate(true),
-                  },
-                }}
+                onChange={(newDate) => setStartDate(newDate || null)}
               />
             </li>
             <li className="ogsm-modal-form">
-              <FormLabel
-                htmlFor="add-enddate"
-                className="ogsm-modal-form-title"
-              >
-                End Date
-              </FormLabel>
-              <DesktopDatePicker
+              <DatePickerForm
+                label="End Date"
                 value={endDate}
-                onChange={(newDate) =>
-                  newDate ? setEndDate(newDate) : setEndDate(null)
-                }
-                format="YYYY/MM/DD"
-                slotProps={{
-                  field: {
-                    clearable: true,
-                    onClear: () => setClearedDate(true),
-                  },
-                }}
+                onChange={(newDate) => setEndDate(newDate || null)}
               />
             </li>
             {ogsm && (
