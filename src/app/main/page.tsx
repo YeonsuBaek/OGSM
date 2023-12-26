@@ -50,7 +50,7 @@ const Main = () => {
       {
         onSuccess: () => {
           refetch()
-          toast.success("Delete the data.")
+          toast.success("Deleted the data.")
         },
         onError: () => {
           toast.error("Fail to delete the data.")
@@ -70,10 +70,10 @@ const Main = () => {
         {
           onSuccess: () => {
             refetch()
-            toast.success("Saved the changed.")
+            toast.success("Saved the changes.")
           },
           onError: () => {
-            toast.error("Fail to save the changed.")
+            toast.error("Fail to save the changes.")
           },
         }
       )
@@ -83,10 +83,10 @@ const Main = () => {
         {
           onSuccess: () => {
             refetch()
-            toast.success("Saved the data.")
+            toast.success("Added the data.")
           },
           onError: () => {
-            toast.error("Fail to save the data.")
+            toast.error("Fail to add the data.")
           },
         }
       )
@@ -102,7 +102,7 @@ const Main = () => {
         refetch()
       },
       onError: () => {
-        toast.error("Fail to log in")
+        toast.error("Fail to log in.")
       },
     })
   }
