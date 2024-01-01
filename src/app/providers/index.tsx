@@ -1,4 +1,6 @@
 "use client"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import { GoogleAuthProvider } from "firebase/auth"
 import { createContext, ReactNode, useState } from "react"
 import { ToastContainer } from "react-toastify"
@@ -26,20 +28,22 @@ export const Providers = ({ children }: ProvidersProps) => {
 
   return (
     <AuthContext.Provider value={{ user, login }}>
-      {children}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        limit={5}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        {children}
+        <ToastContainer
+          position='top-right'
+          autoClose={3000}
+          limit={5}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='light'
+        />
+      </LocalizationProvider>
     </AuthContext.Provider>
   )
 }
