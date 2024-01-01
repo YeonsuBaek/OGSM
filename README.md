@@ -9,9 +9,8 @@ OGSM(Objective, Goal, Strategy, Measure) Modal이란 장기적인 측면에서 �
 
 ## 👩🏻‍💻 Built with
 
-- Next.js, TypeScript
-- CSS, [MUI](https://mui.com)
-- firebase
+- Frontend: Next.js, TypeScript, CSS, [MUI](https://mui.com)
+- Backend: Firebase
 
 ## 🚀 Demo
 
@@ -19,9 +18,10 @@ https://ogsm.vercel.app/
 
 ## ✨ Functions
 
-### 구글 로그인
+### 로그인 및 데이터 관리
 
-- Firebase를 활용한 구글 로그인
+- Firebase Authentication를 활용한 구글 로그인 및 관리
+- Cloud FireStore를 활용한 사용자별 OGSM 데이터 관리
 
 ### OGSM 목록
 
@@ -29,9 +29,9 @@ https://ogsm.vercel.app/
 - Switch Toggle을 통해 Done State를 변경한다.
 - 로그인 상태가 아니거나 OGSM 데이터가 없는 경우 문구로 대체한다.
 
-| 0        | ![](https://velog.velcdn.com/images/yeonsubaek/post/682d5d5a-7d14-4bff-a22d-0140160981cd/image.png) | ![](https://velog.velcdn.com/images/yeonsubaek/post/6f9576e7-9a7f-4526-87b2-336a29b5d079/image.png) | ![](https://velog.velcdn.com/images/yeonsubaek/post/2ee92d38-c1a4-48b0-ba5b-7a3460b8d1a1/image.png) |
-| -------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 로그인 X | 로그인 O 데이터 X                                                                                   | 로그인 O 데이터 O                                                                                   | Done State 변경                                                                                     |
+| ![](https://velog.velcdn.com/images/yeonsubaek/post/29517019-4451-40a9-9d8a-210cf59a5e70/image.png) | ![](https://velog.velcdn.com/images/yeonsubaek/post/682d5d5a-7d14-4bff-a22d-0140160981cd/image.png) | ![](https://velog.velcdn.com/images/yeonsubaek/post/6f9576e7-9a7f-4526-87b2-336a29b5d079/image.png) | ![](https://velog.velcdn.com/images/yeonsubaek/post/2ee92d38-c1a4-48b0-ba5b-7a3460b8d1a1/image.png) |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 로그인 X                                                                                            | 로그인 O 데이터 X                                                                                   | 로그인 O 데이터 O                                                                                   | Done State 변경                                                                                     |
 
 ### OGSM 추가
 
@@ -78,40 +78,41 @@ npm install
 npm run dev
 ```
 
-## Architecture
+## 🗂 Architecture
 
 ```
-📦src
- ┣ 📂app
- ┃ ┣ 📂main
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂providers
- ┃ ┃ ┗ 📜index.tsx
- ┃ ┣ 📜index.css
- ┃ ┣ 📜layout.tsx
- ┃ ┗ 📜page.tsx
- ┣ 📂components
- ┃ ┣ 📂blocks
- ┃ ┃ ┣ 📂button
- ┃ ┃ ┃ ┗ 📜OgsmAddButton.tsx
- ┃ ┃ ┣ 📂form
- ┃ ┃ ┃ ┣ 📜DatePickerForm.tsx
- ┃ ┃ ┃ ┣ 📜SwitchForm.tsx
- ┃ ┃ ┃ ┗ 📜TextFieldForm.tsx
- ┃ ┃ ┣ 📂modal
- ┃ ┃ ┃ ┗ 📜OgsmModal.tsx
- ┃ ┣ 📂features/main
- ┃ ┃ ┣ 📜Content.tsx
- ┃ ┃ ┣ 📜Header.tsx
- ┃ ┃ ┣ 📜OgsmItem.tsx
- ┃ ┗ ┗ 📜OgsmList.tsx
- ┣ 📂hooks
- ┃ ┣ 📜useAuth.tsx
- ┃ ┣ 📜useGetOgsm.tsx
- ┃ ┣ 📜useLoginOgsm.tsx
- ┃ ┣ 📜useLogoutOgsm.tsx
- ┃ ┣ 📜useMutationOgsm.tsx
- ┃ ┗ 📜useSaveOgsm.tsx
- ┣ 📂types
- ┗ ┗ 📜index.tsx
+📦 src
+ ┣ 📂 app
+ ┃ ┣ 📂 main
+ ┃ ┃ ┗ 📄 page.tsx
+ ┃ ┣ 📂 providers
+ ┃ ┃ ┗ 📄 index.tsx
+ ┃ ┣ 📄 index.css
+ ┃ ┣ 📄 layout.tsx
+ ┃ ┗ 📄 page.tsx
+ ┣ 📂 components
+ ┃ ┣ 📂 blocks
+ ┃ ┃ ┣ 📂 button
+ ┃ ┃ ┃ ┗ 📄 OgsmAddButton.tsx
+ ┃ ┃ ┣ 📂 form
+ ┃ ┃ ┃ ┣ 📄 DatePickerForm.tsx
+ ┃ ┃ ┃ ┣ 📄 SwitchForm.tsx
+ ┃ ┃ ┃ ┣ 📄 SwitchInListForm.tsx
+ ┃ ┃ ┃ ┗ 📄 TextFieldForm.tsx
+ ┃ ┃ ┣ 📂 modal
+ ┃ ┃ ┃ ┗ 📄 OgsmModal.tsx
+ ┃ ┣ 📂 features/main
+ ┃ ┃ ┣ 📄 Content.tsx
+ ┃ ┃ ┣ 📄 Header.tsx
+ ┃ ┃ ┣ 📄 OgsmItem.tsx
+ ┃ ┗ ┗ 📄 OgsmList.tsx
+ ┣ 📂 hooks
+ ┃ ┣ 📄 useAuth.tsx
+ ┃ ┣ 📄 useGetOgsm.tsx
+ ┃ ┣ 📄 useLoginOgsm.tsx
+ ┃ ┣ 📄 useLogoutOgsm.tsx
+ ┃ ┣ 📄 useMutationOgsm.tsx
+ ┃ ┗ 📄 useSaveOgsm.tsx
+ ┣ 📂 types
+ ┗ ┗ 📄 index.tsx
 ```
