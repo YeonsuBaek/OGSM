@@ -1,13 +1,8 @@
-import React, { ChangeEvent } from "react"
-import {
-  Divider,
-  FormControlLabel,
-  ListItem,
-  ListItemText,
-  Switch,
-} from "@mui/material"
+import React from "react"
+import { Divider, ListItem, ListItemText } from "@mui/material"
 import { OGSM_TYPE, NUMBER_SUFFIX } from "@/types"
 import moment from "moment"
+import SwitchInListForm from "@/components/blocks/form/SwitchInListForm"
 
 interface OgsmItemProps {
   ogsm: OGSM_TYPE
@@ -78,34 +73,12 @@ const OgsmItem = ({ ogsm, onOpenModal, onSave }: OgsmItemProps) => {
     return ""
   }
 
-  const handleChangeDone = (
-    e: ChangeEvent<HTMLInputElement>,
-    ogsm: OGSM_TYPE
-  ) => {
-    const { checked } = e.target
-    onSave({
-      ...ogsm,
-      isDone: checked,
-    })
-  }
-
   return (
     <>
       <ListItem
-        className="ogsm-item"
-        role="button"
-        secondaryAction={
-          <FormControlLabel
-            control={
-              <Switch
-                checked={ogsm?.isDone || false}
-                onChange={(e) => handleChangeDone(e, ogsm)}
-              />
-            }
-            label={ogsm?.isDone ? "Done" : "In progress"}
-            labelPlacement="start"
-          />
-        }
+        className='ogsm-item'
+        role='button'
+        secondaryAction={<SwitchInListForm ogsm={ogsm} onSave={onSave} />}
       >
         <ListItemText
           primary={ogsm.goal}
@@ -113,7 +86,7 @@ const OgsmItem = ({ ogsm, onOpenModal, onSave }: OgsmItemProps) => {
           onClick={() => onOpenModal(ogsm.id)}
         />
       </ListItem>
-      <Divider component="li" />
+      <Divider component='li' />
     </>
   )
 }
