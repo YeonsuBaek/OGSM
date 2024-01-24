@@ -13,7 +13,15 @@ interface OgsmListProps {
 const OgsmList = ({ onOpenModal, ogsmList, onSave }: OgsmListProps) => {
   const { user } = useAuth()
 
-  return user && ogsmList.length > 0 ? (
+  if (!user) {
+    return <p className="ogsm-no-data">Please use after logging in.</p>
+  }
+
+  if (ogsmList.length <= 0) {
+    return <p className="ogsm-no-data">No data available.</p>
+  }
+
+  return (
     <List
       sx={{
         width: "100%",
@@ -31,10 +39,6 @@ const OgsmList = ({ onOpenModal, ogsmList, onSave }: OgsmListProps) => {
         )
       })}
     </List>
-  ) : (
-    <p className="ogsm-no-data">
-      {user ? "No data available." : "Please use after logging in."}
-    </p>
   )
 }
 
