@@ -17,7 +17,7 @@ const Content = ({ ogsmList, refetch }: ContentProps) => {
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
   const { mutate: mutateDeleteOgsm } = useMutation({ method: "DELETE" })
   const { mutate: mutateUpdateOgsm } = useMutation({ method: "POST" })
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
     undefined
   )

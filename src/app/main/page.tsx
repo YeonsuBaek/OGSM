@@ -11,7 +11,7 @@ import Content from "@/components/features/main/Content"
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
-  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true)
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
   const authService = getAuth()
 
   useEffect(() => {

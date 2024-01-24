@@ -6,7 +6,7 @@ type MUTATION_FN_TYPE = {
 }
 
 const useLogout = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<any>(null)
 
   const mutate = async (data: any, mutationFn: MUTATION_FN_TYPE) => {

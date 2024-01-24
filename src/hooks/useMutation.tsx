@@ -21,7 +21,7 @@ interface useMutationProps {
 
 const useMutation = ({ method }: useMutationProps) => {
   const { user } = useAuth()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<any>(null)
 
   const mutate = async (data: DATA_TYPE, mutationFn: MUTATION_FN_TYPE) => {

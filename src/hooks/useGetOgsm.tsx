@@ -10,8 +10,8 @@ interface useFetchOgsmProps {
 const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
   const [data, setData] = useState<OGSM_TYPE[]>([])
   const [error, setError] = useState<unknown | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isRefetch, setIsRefetch] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRefetch, setIsRefetch] = useState(false)
 
   useEffect(() => {
     if (!email) {

@@ -42,13 +42,13 @@ const OgsmModal = ({
   setSelectedItem,
   ogsm,
 }: AddItemModalProps) => {
-  const [objective, setObjective] = useState<string>(ogsm?.objective || "")
-  const [goal, setGoal] = useState<string>(ogsm?.goal || "")
-  const [strategy, setStrategy] = useState<string>(ogsm?.strategy || "")
-  const [measure, setMeasure] = useState<string>(ogsm?.measure || "")
+  const [objective, setObjective] = useState(ogsm?.objective || "")
+  const [goal, setGoal] = useState(ogsm?.goal || "")
+  const [strategy, setStrategy] = useState(ogsm?.strategy || "")
+  const [measure, setMeasure] = useState(ogsm?.measure || "")
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
-  const [isDone, setIsDone] = useState<boolean>(ogsm?.isDone || false)
+  const [isDone, setIsDone] = useState(ogsm?.isDone || false)
   const [formInvalids, setFormInvalids] = useState<FORM_TYPE[]>([])
   const [autoFocus, setAutoFocus] = useState<FORM_TYPE | null>(null)
   const ERROR_MSG = "Please keep your input between 1 and 256 characters."
