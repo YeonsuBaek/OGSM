@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { OGSM_TYPE } from "@/types"
-import useAuth from "./useAuth"
+import useAuth from "../common/useAuth"
 import { collection, doc, updateDoc } from "firebase/firestore"
-import { db } from "../../firebase.config"
+import { db } from "../../../firebase.config"
 
 type DATA_TYPE = {
   ogsmList: OGSM_TYPE[]

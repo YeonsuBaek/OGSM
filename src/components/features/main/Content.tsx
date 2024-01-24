@@ -1,10 +1,10 @@
-import useAuth from "@/hooks/useAuth"
+import useAuth from "@/hooks/common/useAuth"
 import React, { useState } from "react"
 import OgsmList from "./OgsmList"
 import { OGSM_TYPE } from "@/types"
 import OgsmModal from "@/components/blocks/modal/OgsmModal"
-import useSaveOgsm from "@/hooks/useSaveOgsm"
-import useMutation from "@/hooks/useMutation"
+import useSaveOgsm from "@/hooks/ogsm/useSaveOgsm"
+import useMutation from "@/hooks/ogsm/useMutation"
 import { toast } from "react-toastify"
 import OgsmAddButton from "@/components/blocks/button/OgsmAddButton"
 

@@ -2,7 +2,7 @@ import React from "react"
 import { List } from "@mui/material"
 import OgsmItem from "./OgsmItem"
 import { OGSM_TYPE } from "@/types"
-import useAuth from "@/hooks/useAuth"
+import useAuth from "@/hooks/common/useAuth"
 
 interface OgsmListProps {
   onOpenModal: (id?: number) => void

@@ -1,6 +1,6 @@
 import { OGSM_TYPE } from "@/types"
 import { useEffect, useMemo, useState } from "react"
-import { db } from "../../firebase.config"
+import { db } from "../../../firebase.config"
 import { collection, doc, getDoc, setDoc } from "firebase/firestore"
 
 interface useFetchOgsmProps {

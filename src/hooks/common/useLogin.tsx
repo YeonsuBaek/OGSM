@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { auth } from "../../firebase.config"
+import { auth } from "../../../firebase.config"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 type DATA_TYPE = GoogleAuthProvider
