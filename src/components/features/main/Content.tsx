@@ -1,4 +1,3 @@
-import useAuth from "@/hooks/common/useAuth"
 import React, { useState } from "react"
 import OgsmList from "./OgsmList"
 import { OGSM_TYPE } from "@/types"
