@@ -159,7 +159,7 @@ const OgsmModal = ({
     setFormInvalids([])
   }
 
-  const disabledSaveButton = useMemo(() => {
+  const isDisabledSaveButton = useMemo(() => {
     const hasRequiredValues = objective && goal && strategy && measure
     if (!ogsm) {
       return !hasRequiredValues
@@ -304,7 +304,7 @@ const OgsmModal = ({
               variant="contained"
               disableElevation
               onClick={handleSave}
-              disabled={disabledSaveButton}
+              disabled={isDisabledSaveButton}
             >
               Save
             </Button>

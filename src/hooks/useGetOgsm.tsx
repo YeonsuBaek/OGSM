@@ -52,11 +52,11 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
     }
   }, [email, isRefetch])
 
-  const onRefetch = () => {
+  const refetch = () => {
     setIsRefetch(true)
   }
 
-  return { data, isLoading, error, refetch: onRefetch }
+  return { data, isLoading, error, refetch }
 }
 
 export default useFetchOgsm
