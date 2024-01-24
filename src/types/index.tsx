@@ -9,7 +9,7 @@ export type OGSM_TYPE = {
   isDone?: boolean
 }
 
-export enum NUMBER_SUFFIX {
+export const enum NUMBER_SUFFIX {
   NULL = "",
   FIRST = "st",
   SECOND = "nd",
