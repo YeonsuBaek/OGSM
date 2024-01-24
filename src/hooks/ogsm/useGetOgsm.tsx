@@ -28,7 +28,7 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
         const response = await getDoc(docRef)
 
         if (response.exists()) {
-          const list = response.data()["ogsm"].map((item: any) => {
+          const list = response.data()["ogsm"].map((item: OGSM_TYPE) => {
             return {
               ...item,
               id: item.id || `${id}-${item.goal}`,

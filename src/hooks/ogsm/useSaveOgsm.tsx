@@ -16,12 +16,12 @@ type MUTATION_FN_TYPE = {
 const useSaveOgsm = () => {
   const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<any>(null)
+  const [error, setError] = useState<unknown | null>(null)
 
   const mutate = async (data: DATA_TYPE, mutationFn: MUTATION_FN_TYPE) => {
     const { newOgsm } = data
     const { onSuccess, onError } = mutationFn
-    const id = user.email.replace("@", "")
+    const id = user?.email?.replace("@", "")
     setIsLoading(true)
 
     try {

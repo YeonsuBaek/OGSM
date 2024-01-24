@@ -1,3 +1,5 @@
+import { User } from "firebase/auth"
+
 export type OGSM_TYPE = {
   id: number
   objective: string
@@ -16,3 +18,5 @@ export const enum NUMBER_SUFFIX {
   THIRD = "rd",
   OTHER = "th",
 }
+
+export type USER_TYPE = User | null
