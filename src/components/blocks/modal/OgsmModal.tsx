@@ -18,11 +18,11 @@ import SwitchForm from "../form/SwitchForm"
 interface AddItemModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
-  ogsm?: OGSM_TYPE
   ogsmList: OGSM_TYPE[]
   onDelete: (id: number) => void
   onSave: (newOgsm: OGSM_TYPE) => void
   setSelectedItem: (id: undefined) => void
+  ogsm?: OGSM_TYPE
 }
 
 export type FORM_TYPE =
@@ -36,11 +36,11 @@ export type FORM_TYPE =
 const OgsmModal = ({
   isOpen,
   setIsOpen,
-  ogsm,
   ogsmList,
   onDelete,
   onSave,
   setSelectedItem,
+  ogsm,
 }: AddItemModalProps) => {
   const [objective, setObjective] = useState<string>(ogsm?.objective || "")
   const [goal, setGoal] = useState<string>(ogsm?.goal || "")

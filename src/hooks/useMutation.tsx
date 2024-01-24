@@ -5,8 +5,8 @@ import { collection, doc, updateDoc } from "firebase/firestore"
 import { db } from "../../firebase.config"
 
 type DATA_TYPE = {
-  id?: number
   ogsmList: OGSM_TYPE[]
+  id?: number
   newOgsm?: OGSM_TYPE
 }
 
