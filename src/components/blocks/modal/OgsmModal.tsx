@@ -85,11 +85,11 @@ const OgsmModal = ({
   }
 
   const isDuplicated = (value: string) => {
-    const dulicatedValue = ogsmList.filter((ogsm) => ogsm.objective === value)
-    return ogsm ? dulicatedValue.length > 1 : dulicatedValue.length >= 1
+    const duplicateValue = ogsmList.filter((ogsm) => ogsm.objective === value)
+    return ogsm ? duplicateValue.length > 1 : duplicateValue.length >= 1
   }
 
-  const checkValids = () => {
+  const checkInValids = () => {
     const isValidObject =
       checkLength(objective.trim().length) && !isDuplicated(objective.trim())
     const isValidGoal = checkLength(goal.trim().length)
@@ -115,7 +115,7 @@ const OgsmModal = ({
   }
 
   const handleSave = () => {
-    const invalids = checkValids()
+    const invalids = checkInValids()
 
     setFormInvalids(invalids as FORM_TYPE[])
     setAutoFocus(invalids[0] as FORM_TYPE)
