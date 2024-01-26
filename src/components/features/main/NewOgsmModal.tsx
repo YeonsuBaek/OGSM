@@ -12,10 +12,9 @@ interface NewOgsmModalProps {
   setIsOpen: (isOpen: boolean) => void
   ogsmList: OGSM_TYPE[]
   onSave: (newOgsm: OGSM_TYPE) => void
-  setSelectedItem: (id: undefined) => void
 }
 
-const NewOgsmModal = ({ isOpen, setIsOpen, ogsmList, onSave, setSelectedItem }: NewOgsmModalProps) => {
+const NewOgsmModal = ({ isOpen, setIsOpen, ogsmList, onSave }: NewOgsmModalProps) => {
   const [requiredData, setRequiredData] = useState<{ [key: string]: string }>({
     objective: "",
     goal: "",
@@ -106,7 +105,6 @@ const NewOgsmModal = ({ isOpen, setIsOpen, ogsmList, onSave, setSelectedItem }: 
       measure: "",
     })
     setDate({ startDate: null, endDate: null })
-    setSelectedItem(undefined)
     setFormInvalids([])
   }
 

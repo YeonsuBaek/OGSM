@@ -80,13 +80,7 @@ const Content = ({ ogsmList, refetch }: ContentProps) => {
     <>
       <OgsmAddButton onClick={() => setIsNewModalOpen(true)} />
       <OgsmList ogsmList={ogsmList} onOpenModal={handleOpenModal} onSave={onSave} />
-      <NewOgsmModal
-        isOpen={isNewModalOpen}
-        setIsOpen={setIsNewModalOpen}
-        ogsmList={ogsmList}
-        onSave={onSave}
-        setSelectedItem={setSelectedItem}
-      />
+      <NewOgsmModal isOpen={isNewModalOpen} setIsOpen={setIsNewModalOpen} ogsmList={ogsmList} onSave={onSave} />
       {selectedItem && (
         <EditOgsmModal
           isOpen={isEditModalOpen}
