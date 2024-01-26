@@ -54,7 +54,7 @@ const NewOgsmModal = ({ isOpen, setIsOpen, ogsmList, onSave }: NewOgsmModalProps
     const isValidStrategy = checkLength(strategy.trim().length)
     const isValidMeasure = checkLength(measure.trim().length)
 
-    const invalids = []
+    const invalids: FORM_TYPE[] = []
 
     if (!isValidObject) {
       invalids.push("objective")
@@ -75,8 +75,8 @@ const NewOgsmModal = ({ isOpen, setIsOpen, ogsmList, onSave }: NewOgsmModalProps
   const handleSave = () => {
     const invalids = checkInValids()
 
-    setFormInvalids(invalids as FORM_TYPE[])
-    setAutoFocus(invalids[0] as FORM_TYPE)
+    setFormInvalids(invalids)
+    setAutoFocus(invalids[0])
 
     if (Object.keys(invalids).length > 0) {
       return
