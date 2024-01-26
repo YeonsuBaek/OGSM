@@ -20,3 +20,10 @@ export const enum NUMBER_SUFFIX {
 }
 
 export type USER_TYPE = User | null
+
+export type FORM_TYPE = "objective" | "goal" | "strategy" | "measure" | "startDate" | "endDate"
+
+export const enum MODAL_ERROR_MSG {
+  LENGTH = "Please keep your input between 1 and 256 characters.",
+  DUPLICATE = "Please ensure your input is unique and keep it between 1 and 256 characters.",
+}
