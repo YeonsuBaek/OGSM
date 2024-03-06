@@ -1,6 +1,5 @@
 import { FormLabel, TextField } from "@mui/material"
 import React, { ChangeEvent } from "react"
-import { FORM_TYPE } from "../modal/OgsmModal"
 
 interface TextFieldFormProps {
   id: string

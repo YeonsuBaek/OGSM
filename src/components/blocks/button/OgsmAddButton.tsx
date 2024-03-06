@@ -1,4 +1,4 @@
-import useAuth from "@/hooks/useAuth"
+import useAuth from "@/hooks/common/useAuth"
 import { Add } from "@mui/icons-material"
 import { Button } from "@mui/material"
 import React from "react"
