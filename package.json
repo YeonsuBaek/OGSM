@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "@mui/x-date-pickers": "^6.18.2",
+    "@yeonsubaek/yeonsui": "^0.0.21",
     "firebase": "^10.7.1",
     "moment": "^2.29.4",
     "next": "14.0.3",
