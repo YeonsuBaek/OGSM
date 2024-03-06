@@ -1,5 +1,5 @@
-import { Button } from "@mui/material"
-import React from "react"
+import { Button } from '@yeonsubaek/yeonsui'
+import React from 'react'
 
 interface ModalFooterProps {
   isDisabledSaveButton: boolean
@@ -12,14 +12,14 @@ const ModalFooter = ({ isDisabledSaveButton, onClose, onSave, onDelete }: ModalF
   return (
     <footer className="ogsm-modal-footer">
       {onDelete && (
-        <Button variant="outlined" color="error" onClick={onDelete}>
+        <Button variant="secondary" onClick={onDelete}>
           Delete
         </Button>
       )}
-      <Button variant="outlined" onClick={onClose}>
+      <Button variant="secondary" onClick={onClose}>
         Cancel
       </Button>
-      <Button variant="contained" disableElevation onClick={onSave} disabled={isDisabledSaveButton}>
+      <Button variant="primary" onClick={onSave} disabled={isDisabledSaveButton}>
         Save
       </Button>
     </footer>

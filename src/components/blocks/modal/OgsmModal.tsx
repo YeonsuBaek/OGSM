@@ -1,10 +1,11 @@
-import React, { useState, useEffect, ChangeEvent, useMemo } from "react"
-import { Button, Modal, Paper, SelectChangeEvent } from "@mui/material"
-import { OGSM_TYPE } from "@/types"
-import moment, { Moment } from "moment"
-import TextFieldForm from "../form/TextFieldForm"
-import DatePickerForm from "../form/DatePickerForm"
-import SwitchForm from "../form/SwitchForm"
+import React, { useState, useEffect, ChangeEvent, useMemo } from 'react'
+import { Modal, Paper, SelectChangeEvent } from '@mui/material'
+import { OGSM_TYPE } from '@/types'
+import moment, { Moment } from 'moment'
+import TextFieldForm from '../form/TextFieldForm'
+import DatePickerForm from '../form/DatePickerForm'
+import SwitchForm from '../form/SwitchForm'
+import { Button } from '@yeonsubaek/yeonsui'
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -16,19 +17,19 @@ interface AddItemModalProps {
   ogsm?: OGSM_TYPE
 }
 
-export type FORM_TYPE = "objective" | "goal" | "strategy" | "measure" | "startDate" | "endDate"
+export type FORM_TYPE = 'objective' | 'goal' | 'strategy' | 'measure' | 'startDate' | 'endDate'
 
 const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedItem, ogsm }: AddItemModalProps) => {
-  const [objective, setObjective] = useState(ogsm?.objective || "")
-  const [goal, setGoal] = useState(ogsm?.goal || "")
-  const [strategy, setStrategy] = useState(ogsm?.strategy || "")
-  const [measure, setMeasure] = useState(ogsm?.measure || "")
+  const [objective, setObjective] = useState(ogsm?.objective || '')
+  const [goal, setGoal] = useState(ogsm?.goal || '')
+  const [strategy, setStrategy] = useState(ogsm?.strategy || '')
+  const [measure, setMeasure] = useState(ogsm?.measure || '')
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
   const [isDone, setIsDone] = useState(ogsm?.isDone || false)
   const [formInvalids, setFormInvalids] = useState<FORM_TYPE[]>([])
   const [autoFocus, setAutoFocus] = useState<FORM_TYPE | null>(null)
-  const ERROR_MSG = "Please keep your input between 1 and 256 characters."
+  const ERROR_MSG = 'Please keep your input between 1 and 256 characters.'
 
   const handleChangeInput = (type: FORM_TYPE, e: SelectChangeEvent | ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -36,16 +37,16 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
 
     setAutoFocus(null)
     switch (type) {
-      case "objective":
+      case 'objective':
         setObjective(value)
         break
-      case "goal":
+      case 'goal':
         setGoal(value)
         break
-      case "strategy":
+      case 'strategy':
         setStrategy(value)
         break
-      case "measure":
+      case 'measure':
         setMeasure(value)
         break
     }
@@ -72,16 +73,16 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
     const invalids = []
 
     if (!isValidObject) {
-      invalids.push("objective")
+      invalids.push('objective')
     }
     if (!isValidGoal) {
-      invalids.push("goal")
+      invalids.push('goal')
     }
     if (!isValidStrategy) {
-      invalids.push("strategy")
+      invalids.push('strategy')
     }
     if (!isValidMeasure) {
-      invalids.push("measure")
+      invalids.push('measure')
     }
 
     return invalids
@@ -103,8 +104,8 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
       goal: goal.trim(),
       strategy: strategy.trim(),
       measure: measure.trim(),
-      startDate: startDate ? moment(startDate).format("YYYY-MM-DD") : null,
-      endDate: endDate ? moment(endDate).format("YYYY-MM-DD") : null,
+      startDate: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
+      endDate: endDate ? moment(endDate).format('YYYY-MM-DD') : null,
       isDone,
     })
 
@@ -121,10 +122,10 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
 
   const handleClose = () => {
     setIsOpen(false)
-    setObjective("")
-    setGoal("")
-    setStrategy("")
-    setMeasure("")
+    setObjective('')
+    setGoal('')
+    setStrategy('')
+    setMeasure('')
     setStartDate(null)
     setEndDate(null)
     setIsDone(false)
@@ -138,8 +139,8 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
       return !hasRequiredValues
     }
 
-    const targetStartDate = startDate === null ? null : moment(startDate).format("YYYY-MM-DD")
-    const targetEndDate = endDate === null ? null : moment(endDate).format("YYYY-MM-DD")
+    const targetStartDate = startDate === null ? null : moment(startDate).format('YYYY-MM-DD')
+    const targetEndDate = endDate === null ? null : moment(endDate).format('YYYY-MM-DD')
 
     return (
       !hasRequiredValues ||
@@ -177,12 +178,12 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
                 id="add-object"
                 label="Objective"
                 required={true}
-                invalid={formInvalids.includes("objective")}
+                invalid={formInvalids.includes('objective')}
                 errorText="Please ensure your input is unique and keep it between 1 and 256 characters."
-                autoFocus={Boolean(autoFocus === "objective")}
+                autoFocus={Boolean(autoFocus === 'objective')}
                 value={objective}
                 placeholder="Enter the object"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput("objective", e)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput('objective', e)}
               />
             </li>
             <li className="ogsm-modal-form">
@@ -190,12 +191,12 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
                 id="add-goal"
                 label="Goal"
                 required={true}
-                invalid={formInvalids.includes("goal")}
+                invalid={formInvalids.includes('goal')}
                 errorText={ERROR_MSG}
-                autoFocus={Boolean(autoFocus === "goal")}
+                autoFocus={Boolean(autoFocus === 'goal')}
                 value={goal}
                 placeholder="Enter the goal"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput("goal", e)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput('goal', e)}
               />
             </li>
             <li className="ogsm-modal-form">
@@ -203,12 +204,12 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
                 id="add-strategy"
                 label="Strategy"
                 required={true}
-                invalid={formInvalids.includes("strategy")}
+                invalid={formInvalids.includes('strategy')}
                 errorText={ERROR_MSG}
-                autoFocus={Boolean(autoFocus === "strategy")}
+                autoFocus={Boolean(autoFocus === 'strategy')}
                 value={strategy}
                 placeholder="Enter the strategy"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput("strategy", e)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput('strategy', e)}
               />
             </li>
             <li className="ogsm-modal-form">
@@ -216,12 +217,12 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
                 id="add-measure"
                 label="Measure"
                 required={true}
-                invalid={formInvalids.includes("measure")}
+                invalid={formInvalids.includes('measure')}
                 errorText={ERROR_MSG}
-                autoFocus={Boolean(autoFocus === "measure")}
+                autoFocus={Boolean(autoFocus === 'measure')}
                 value={measure}
                 placeholder="Enter the measure"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput("measure", e)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeInput('measure', e)}
               />
             </li>
             <li className="ogsm-modal-form">
@@ -246,14 +247,14 @@ const OgsmModal = ({ isOpen, setIsOpen, ogsmList, onDelete, onSave, setSelectedI
           </ul>
           <footer className="ogsm-modal-footer">
             {ogsm && (
-              <Button variant="outlined" color="error" onClick={handleDelete}>
+              <Button variant="secondary" onClick={handleDelete}>
                 Delete
               </Button>
             )}
-            <Button variant="outlined" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained" disableElevation onClick={handleSave} disabled={isDisabledSaveButton}>
+            <Button variant="primary" onClick={handleSave} disabled={isDisabledSaveButton}>
               Save
             </Button>
           </footer>
