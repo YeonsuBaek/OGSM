@@ -5,6 +5,7 @@ import moment, { Moment } from 'moment'
 import TextFieldForm from '../../blocks/form/TextFieldForm'
 import DatePickerForm from '../../blocks/form/DatePickerForm'
 import { Modal } from '@yeonsubaek/yeonsui'
+import { onConfirm } from '@/components/blocks/modal'
 
 interface EditOgsmModalProps {
   isOpen: boolean
@@ -108,11 +109,16 @@ const EditOgsmModal = ({
   }
 
   const handleDelete = () => {
-    if (ogsm) {
-      onDelete(ogsm.id)
-    }
-
-    handleClose()
+    onConfirm({
+      message: 'Would you like to delete this ogsm?',
+      labelSave: 'Delete',
+      onSave: () => {
+        if (ogsm) {
+          onDelete(ogsm.id)
+        }
+        handleClose()
+      },
+    })
   }
 
   const handleClose = () => {

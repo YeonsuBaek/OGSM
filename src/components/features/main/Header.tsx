@@ -6,6 +6,7 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import { auth } from '../../../../firebase.config'
 import { Button } from '@yeonsubaek/yeonsui'
+import { onConfirm } from '@/components/blocks/modal'
 
 interface HeaderProps {
   refetch: () => void
@@ -31,6 +32,14 @@ const Header = ({ refetch }: HeaderProps) => {
   }
 
   const handleLogout = () => {
+    onConfirm({
+      message: 'Would you like to log out?',
+      labelSave: 'Logout',
+      onSave: onLogout,
+    })
+  }
+
+  const onLogout = () => {
     mutateLogout(auth, {
       onSuccess: () => {
         login(null)
