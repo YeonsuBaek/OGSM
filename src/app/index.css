@@ -59,10 +59,6 @@ body {
   width: 100%;
 }
 
-.ogsm-modal-form-list {
-  padding: 0 16px;
-}
-
 .ogsm-modal-form {
   display: flex;
   flex-direction: column;
@@ -107,10 +103,6 @@ body {
   .ogsm-modal-title {
     padding: 24px;
     font-size: 20px;
-  }
-
-  .ogsm-modal-form-list {
-    padding: 0 24px;
   }
 
   .ogsm-modal-form-title {
