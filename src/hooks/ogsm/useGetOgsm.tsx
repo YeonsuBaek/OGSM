@@ -1,10 +1,10 @@
-import { OGSM_TYPE } from "@/types"
-import { useEffect, useMemo, useState } from "react"
-import { db } from "../../../firebase.config"
-import { collection, doc, getDoc, setDoc } from "firebase/firestore"
+import { OGSM_TYPE } from '@/types'
+import { useEffect, useMemo, useState } from 'react'
+import { db } from '../../../firebase.config'
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 
 interface useFetchOgsmProps {
-  email?: string
+  email?: string | null
 }
 
 const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
@@ -20,15 +20,15 @@ const useFetchOgsm = ({ email }: useFetchOgsmProps) => {
       return
     }
 
-    const id = email.replace("@", "")
+    const id = email.replace('@', '')
     const fetchData = async () => {
       try {
-        const collectionRef = collection(db, "user")
+        const collectionRef = collection(db, 'user')
         const docRef = doc(collectionRef, id)
         const response = await getDoc(docRef)
 
         if (response.exists()) {
-          const list = response.data()["ogsm"].map((item: OGSM_TYPE) => {
+          const list = response.data()['ogsm'].map((item: OGSM_TYPE) => {
             return {
               ...item,
               id: item.id || `${id}-${item.goal}`,

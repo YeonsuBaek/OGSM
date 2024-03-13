@@ -1,7 +1,6 @@
-import useAuth from "@/hooks/common/useAuth"
-import { Add } from "@mui/icons-material"
-import { Button } from "@mui/material"
-import React from "react"
+import useAuth from '@/hooks/common/useAuth'
+import { Button } from '@yeonsubaek/yeonsui'
+import React from 'react'
 
 interface OgsmAddButtonProps {
   onClick: () => void
@@ -11,12 +10,7 @@ const OgsmAddButton = ({ onClick }: OgsmAddButtonProps) => {
   const { user } = useAuth()
 
   return user ? (
-    <Button
-      onClick={onClick}
-      variant="contained"
-      startIcon={<Add />}
-      className="ogsm-add-button"
-    >
+    <Button onClick={onClick} startIcon="Edit">
       OGSM
     </Button>
   ) : null
