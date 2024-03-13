@@ -110,7 +110,7 @@ const EditOgsmModal = ({
 
   const handleDelete = () => {
     onConfirm({
-      message: 'Do you Delete?',
+      message: 'Would you like to delete this ogsm?',
       labelSave: 'Delete',
       onSave: () => {
         if (ogsm) {
