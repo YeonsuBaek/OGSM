@@ -1,12 +1,10 @@
-import useAuth from "@/hooks/useAuth"
 import React, { useState } from "react"
 import OgsmList from "./OgsmList"
 import { OGSM_TYPE } from "@/types"
-import OgsmModal from "@/components/blocks/modal/OgsmModal"
-import useSaveOgsm from "@/hooks/useSaveOgsm"
-import useMutation from "@/hooks/useMutation"
+import useSaveOgsm from "@/hooks/ogsm/useSaveOgsm"
 import { toast } from "react-toastify"
 import OgsmAddButton from "@/components/blocks/button/OgsmAddButton"
+import NewOgsmModal from "@/components/features/main/NewOgsmModal"
 
 interface ContentProps {
   ogsmList: OGSM_TYPE[]
@@ -15,87 +13,28 @@ interface ContentProps {
 
 const Content = ({ ogsmList, refetch }: ContentProps) => {
   const { mutate: mutateSaveOgsm } = useSaveOgsm()
-  const { mutate: mutateDeleteOgsm } = useMutation({ method: "DELETE" })
-  const { mutate: mutateUpdateOgsm } = useMutation({ method: "POST" })
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedItem, setSelectedItem] = useState<OGSM_TYPE | undefined>(
-    undefined
-  )
+  const [isNewModalOpen, setIsNewModalOpen] = useState(false)
 
-  const handleOpenModal = (id?: number) => {
-    if (id) {
-      const item = ogsmList.find((ogsm) => ogsm.id === id)
-      setSelectedItem(item)
-    }
-    setIsOpen(true)
-  }
-
-  const onDelete = (id: number) => {
-    mutateDeleteOgsm(
-      { id, ogsmList },
+  const onSave = (newOgsm: OGSM_TYPE) => {
+    mutateSaveOgsm(
+      { newOgsm },
       {
         onSuccess: () => {
           refetch()
-          toast.success("Deleted the data.")
+          toast.success("Added the data.")
         },
         onError: () => {
-          toast.error("Fail to delete the data.")
+          toast.error("Fail to add the data.")
         },
       }
     )
   }
 
-  const onSave = (newOgsm: OGSM_TYPE) => {
-    const existingOgsmIndex = ogsmList.findIndex(
-      (ogsm) => ogsm.id === newOgsm.id
-    )
-
-    if (existingOgsmIndex !== -1) {
-      mutateUpdateOgsm(
-        { ogsmList, newOgsm },
-        {
-          onSuccess: () => {
-            refetch()
-            toast.success("Saved the changes.")
-          },
-          onError: () => {
-            toast.error("Fail to save the changes.")
-          },
-        }
-      )
-    } else {
-      mutateSaveOgsm(
-        { newOgsm },
-        {
-          onSuccess: () => {
-            refetch()
-            toast.success("Added the data.")
-          },
-          onError: () => {
-            toast.error("Fail to add the data.")
-          },
-        }
-      )
-    }
-  }
-
   return (
     <>
-      <OgsmAddButton onClick={() => setIsOpen(true)} />
-      <OgsmList
-        ogsmList={ogsmList}
-        onOpenModal={handleOpenModal}
-        onSave={onSave}
-      />
-      <OgsmModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        ogsm={selectedItem}
-        ogsmList={ogsmList}
-        onDelete={onDelete}
-        onSave={onSave}
-        setSelectedItem={setSelectedItem}
-      />
+      <OgsmAddButton onClick={() => setIsNewModalOpen(true)} />
+      <OgsmList ogsmList={ogsmList} refetch={refetch} />
+      <NewOgsmModal isOpen={isNewModalOpen} setIsOpen={setIsNewModalOpen} ogsmList={ogsmList} onSave={onSave} />
     </>
   )
 }

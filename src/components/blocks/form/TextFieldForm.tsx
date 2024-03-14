@@ -1,6 +1,5 @@
-import { FormLabel, TextField } from "@mui/material"
-import React, { ChangeEvent } from "react"
-import { FORM_TYPE } from "../modal/OgsmModal"
+import { TextField } from '@yeonsubaek/yeonsui'
+import React, { ChangeEvent } from 'react'
 
 interface TextFieldFormProps {
   id: string
@@ -27,27 +26,17 @@ const TextFieldForm = ({
 }: TextFieldFormProps) => {
   return (
     <>
-      <FormLabel
-        required={required}
-        htmlFor={id}
-        className="ogsm-modal-form-title"
-      >
-        {label}
-      </FormLabel>
       <TextField
-        error={invalid}
-        helperText={invalid ? errorText : ""}
+        label={label}
+        isError={invalid}
+        helperText={invalid ? errorText : ''}
         autoFocus={autoFocus}
-        hiddenLabel
         value={value}
         id={id}
         placeholder={placeholder}
-        variant="outlined"
-        size="small"
-        fullWidth
-        multiline
-        rows={3}
+        size="large"
         onChange={onChange}
+        required
       />
     </>
   )

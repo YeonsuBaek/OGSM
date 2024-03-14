@@ -1,8 +1,6 @@
 import { useState } from "react"
-import { auth } from "../../firebase.config"
+import { auth } from "../../../firebase.config"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-
-type DATA_TYPE = GoogleAuthProvider
 
 type MUTATION_FN_TYPE = {
   onSuccess: (params?: any) => void
@@ -10,10 +8,13 @@ type MUTATION_FN_TYPE = {
 }
 
 const useLogin = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<unknown | null>(null)
 
-  const mutate = async (data: DATA_TYPE, mutationFn: MUTATION_FN_TYPE) => {
+  const mutate = async (
+    data: GoogleAuthProvider,
+    mutationFn: MUTATION_FN_TYPE
+  ) => {
     const provider = data
     const { onSuccess, onError } = mutationFn
     setIsLoading(true)

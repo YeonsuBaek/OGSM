@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from "react"
 import { Container } from "@mui/material"
-import useGetOgsm from "@/hooks/useGetOgsm"
-import useAuth from "@/hooks/useAuth"
+import useGetOgsm from "@/hooks/ogsm/useGetOgsm"
+import useAuth from "@/hooks/common/useAuth"
 import { getAuth } from "firebase/auth"
 import "react-toastify/dist/ReactToastify.css"
 import Header from "@/components/features/main/Header"
@@ -11,7 +11,7 @@ import Content from "@/components/features/main/Content"
 const Main = () => {
   const { user, login } = useAuth()
   const { data: ogsmList, refetch } = useGetOgsm({ email: user?.email })
-  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true)
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
   const authService = getAuth()
 
   useEffect(() => {

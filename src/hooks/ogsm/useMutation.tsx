@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { OGSM_TYPE } from "@/types"
-import useAuth from "./useAuth"
+import useAuth from "../common/useAuth"
 import { collection, doc, updateDoc } from "firebase/firestore"
-import { db } from "../../firebase.config"
+import { db } from "../../../firebase.config"
 
 type DATA_TYPE = {
-  id?: number
   ogsmList: OGSM_TYPE[]
+  id?: number
   newOgsm?: OGSM_TYPE
 }
 
@@ -21,13 +21,13 @@ interface useMutationProps {
 
 const useMutation = ({ method }: useMutationProps) => {
   const { user } = useAuth()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<unknown | null>(null)
 
   const mutate = async (data: DATA_TYPE, mutationFn: MUTATION_FN_TYPE) => {
     const { id: ogsmId, ogsmList, newOgsm } = data
     const { onSuccess, onError } = mutationFn
-    const userId = user.email.replace("@", "")
+    const userId = user?.email?.replace("@", "")
     setIsLoading(true)
 
     try {
